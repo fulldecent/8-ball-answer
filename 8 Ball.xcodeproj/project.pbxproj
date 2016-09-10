@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D91B47801CE40BA20053826F /* __BallUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91B477F1CE40BA20053826F /* __BallUITests.swift */; };
+		D91B47881CE40BB20053826F /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91B47871CE40BB20053826F /* SnapshotHelper.swift */; };
 		D97258C31BEACCBB002325F0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97258C21BEACCBB002325F0 /* AppDelegate.swift */; };
 		D97258C51BEACCBB002325F0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97258C41BEACCBB002325F0 /* ViewController.swift */; };
 		D97258C81BEACCBB002325F0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D97258C61BEACCBB002325F0 /* Main.storyboard */; };
@@ -22,6 +24,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		D91B47821CE40BA20053826F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D97258B71BEACCBA002325F0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D97258BE1BEACCBB002325F0;
+			remoteInfo = "8 Ball";
+		};
 		D97258D31BEACCBB002325F0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D97258B71BEACCBA002325F0 /* Project object */;
@@ -64,6 +73,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D91B477D1CE40BA20053826F /* 8 BallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "8 BallUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D91B477F1CE40BA20053826F /* __BallUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = __BallUITests.swift; sourceTree = "<group>"; };
+		D91B47811CE40BA20053826F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D91B47871CE40BB20053826F /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		D97258BF1BEACCBB002325F0 /* 8 Ball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "8 Ball.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97258C21BEACCBB002325F0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D97258C41BEACCBB002325F0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +96,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D91B477A1CE40BA20053826F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D97258BC1BEACCBB002325F0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -100,12 +120,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D91B477E1CE40BA20053826F /* 8 BallUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D91B477F1CE40BA20053826F /* __BallUITests.swift */,
+				D91B47871CE40BB20053826F /* SnapshotHelper.swift */,
+				D91B47811CE40BA20053826F /* Info.plist */,
+			);
+			path = "8 BallUITests";
+			sourceTree = "<group>";
+		};
 		D97258B61BEACCBA002325F0 = {
 			isa = PBXGroup;
 			children = (
 				D97258C11BEACCBB002325F0 /* 8 Ball */,
 				D97258D51BEACCBB002325F0 /* 8 Ball WatchKit App */,
 				D97258E41BEACCBB002325F0 /* 8 Ball WatchKit Extension */,
+				D91B477E1CE40BA20053826F /* 8 BallUITests */,
 				D97258C01BEACCBB002325F0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -116,6 +147,7 @@
 				D97258BF1BEACCBB002325F0 /* 8 Ball.app */,
 				D97258D11BEACCBB002325F0 /* 8 Ball WatchKit App.app */,
 				D97258E01BEACCBB002325F0 /* 8 Ball WatchKit Extension.appex */,
+				D91B477D1CE40BA20053826F /* 8 BallUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -157,6 +189,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D91B477C1CE40BA20053826F /* 8 BallUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D91B47861CE40BA20053826F /* Build configuration list for PBXNativeTarget "8 BallUITests" */;
+			buildPhases = (
+				D91B47791CE40BA20053826F /* Sources */,
+				D91B477A1CE40BA20053826F /* Frameworks */,
+				D91B477B1CE40BA20053826F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D91B47831CE40BA20053826F /* PBXTargetDependency */,
+			);
+			name = "8 BallUITests";
+			productName = "8 BallUITests";
+			productReference = D91B477D1CE40BA20053826F /* 8 BallUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		D97258BE1BEACCBB002325F0 /* 8 Ball */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D97258F61BEACCBB002325F0 /* Build configuration list for PBXNativeTarget "8 Ball" */;
@@ -216,23 +266,32 @@
 		D97258B71BEACCBA002325F0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0710;
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "William Entriken";
 				TargetAttributes = {
+					D91B477C1CE40BA20053826F = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 8Q693ZG5RN;
+						LastSwiftMigration = 0800;
+						TestTargetID = D97258BE1BEACCBB002325F0;
+					};
 					D97258BE1BEACCBB002325F0 = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0800;
 					};
 					D97258D01BEACCBB002325F0 = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0800;
 					};
 					D97258DF1BEACCBB002325F0 = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
 			buildConfigurationList = D97258BA1BEACCBA002325F0 /* Build configuration list for PBXProject "8 Ball" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -247,11 +306,19 @@
 				D97258BE1BEACCBB002325F0 /* 8 Ball */,
 				D97258D01BEACCBB002325F0 /* 8 Ball WatchKit App */,
 				D97258DF1BEACCBB002325F0 /* 8 Ball WatchKit Extension */,
+				D91B477C1CE40BA20053826F /* 8 BallUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D91B477B1CE40BA20053826F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D97258BD1BEACCBB002325F0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -282,6 +349,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D91B47791CE40BA20053826F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D91B47801CE40BA20053826F /* __BallUITests.swift in Sources */,
+				D91B47881CE40BB20053826F /* SnapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D97258BB1BEACCBB002325F0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -303,6 +379,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D91B47831CE40BA20053826F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D97258BE1BEACCBB002325F0 /* 8 Ball */;
+			targetProxy = D91B47821CE40BA20053826F /* PBXContainerItemProxy */;
+		};
 		D97258D41BEACCBB002325F0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D97258D01BEACCBB002325F0 /* 8 Ball WatchKit App */;
@@ -343,6 +424,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D91B47841CE40BA20053826F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
+				INFOPLIST_FILE = "8 BallUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--BallUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = "8 Ball";
+			};
+			name = Debug;
+		};
+		D91B47851CE40BA20053826F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
+				INFOPLIST_FILE = "8 BallUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--BallUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = "8 Ball";
+			};
+			name = Release;
+		};
 		D97258EC1BEACCBB002325F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -356,8 +467,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -400,8 +513,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -420,6 +535,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -427,13 +543,16 @@
 		D97258EF1BEACCBB002325F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 7;
 				INFOPLIST_FILE = "8 Ball WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -441,13 +560,16 @@
 		D97258F01BEACCBB002325F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 7;
 				INFOPLIST_FILE = "8 Ball WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
@@ -455,15 +577,18 @@
 		D97258F31BEACCBB002325F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				CURRENT_PROJECT_VERSION = 7;
 				IBSC_MODULE = __Ball_WatchKit_Extension;
 				INFOPLIST_FILE = "8 Ball WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -471,15 +596,18 @@
 		D97258F41BEACCBB002325F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				CURRENT_PROJECT_VERSION = 7;
 				IBSC_MODULE = __Ball_WatchKit_Extension;
 				INFOPLIST_FILE = "8 Ball WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
@@ -488,10 +616,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 7;
 				INFOPLIST_FILE = "8 Ball/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -499,16 +630,28 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 7;
 				INFOPLIST_FILE = "8 Ball/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D91B47861CE40BA20053826F /* Build configuration list for PBXNativeTarget "8 BallUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D91B47841CE40BA20053826F /* Debug */,
+				D91B47851CE40BA20053826F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D97258BA1BEACCBA002325F0 /* Build configuration list for PBXProject "8 Ball" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -525,6 +668,7 @@
 				D97258F01BEACCBB002325F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D97258F21BEACCBB002325F0 /* Build configuration list for PBXNativeTarget "8 Ball WatchKit App" */ = {
 			isa = XCConfigurationList;
@@ -533,6 +677,7 @@
 				D97258F41BEACCBB002325F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D97258F61BEACCBB002325F0 /* Build configuration list for PBXNativeTarget "8 Ball" */ = {
 			isa = XCConfigurationList;
@@ -541,6 +686,7 @@
 				D97258F81BEACCBB002325F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

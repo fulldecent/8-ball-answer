@@ -42,8 +42,8 @@ class InterfaceController: WKInterfaceController {
         self.theButton.setTitle(self.answers[random])
     }
     
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
     }
     
     override func willActivate() {
