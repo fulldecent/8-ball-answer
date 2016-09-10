@@ -9,3 +9,10 @@
 app_identifier "net.phor.--Ball" # The bundle identifier of your app
 username "william.entriken@drexel.edu" # your Apple ID user
 submit_for_review true
+automatic_release true
+
+submission_information({
+  add_id_info_tracks_install: true,
+  add_id_info_limits_tracking: true,
+  export_compliance_encryption_updated: false
+})
