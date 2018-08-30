@@ -7,7 +7,7 @@
 # Feel free to remove the following line if you use fastlane (which you should)
 
 app_identifier "net.phor.--Ball" # The bundle identifier of your app
-username "william.entriken@drexel.edu" # your Apple ID user
+username "apple.com@phor.net" # your Apple ID user
 submit_for_review true
 automatic_release true
 

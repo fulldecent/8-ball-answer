@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         "Very doubtful"
     ]
     
-    func reset() {
+    @objc public func reset() {
         self.answer.text = "Tap for answer"
     }
     

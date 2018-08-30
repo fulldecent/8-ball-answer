@@ -284,7 +284,7 @@
 					D97258D01BEACCBB002325F0 = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = 8Q693ZG5RN;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = "";
 					};
 					D97258DF1BEACCBB002325F0 = {
 						CreatedOnToolsVersion = 7.1;
@@ -560,7 +560,7 @@
 		D97258EF1BEACCBB002325F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				INFOPLIST_FILE = "8 Ball WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -579,7 +579,7 @@
 		D97258F01BEACCBB002325F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				INFOPLIST_FILE = "8 Ball WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -600,7 +600,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				IBSC_MODULE = __Ball_WatchKit_Extension;
 				INFOPLIST_FILE = "8 Ball WatchKit App/Info.plist";
@@ -620,7 +620,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				IBSC_MODULE = __Ball_WatchKit_Extension;
 				INFOPLIST_FILE = "8 Ball WatchKit App/Info.plist";
@@ -639,7 +639,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				INFOPLIST_FILE = "8 Ball/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -655,7 +655,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				INFOPLIST_FILE = "8 Ball/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
