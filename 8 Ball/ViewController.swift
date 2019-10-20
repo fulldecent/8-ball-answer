@@ -46,7 +46,7 @@ class ViewController: UIViewController {
         }
         self.rolling = true
         let random = Int(arc4random_uniform(UInt32(self.answers.count)))
-        UIView.animate(withDuration: 0.75, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.75, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
             self.answer.alpha = 0
             }, completion: { finished in
                 self.answer.text = self.answers[random];
@@ -58,7 +58,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.reset), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.reset), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
