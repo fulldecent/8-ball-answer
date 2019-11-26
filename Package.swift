@@ -3,23 +3,31 @@
 import PackageDescription
 
 let package = Package(
-    name: "FDTake",
-    platforms: [.iOS(.v10)],
+    name: "8 Ball",
+    platforms: [.iOS(.v9), .watchOS(.v2)],
     products: [
         .library(
-            name: "FDTake",
-            targets: ["FDTake"]
+            name: "EightBalliOS",
+            targets: ["EightBalliOS"]
+        ),
+        .library(
+           name: "EightBallWatchKit",
+           targets: ["EightBallWatchKit"]
         )
     ],
     dependencies: [],
     targets: [
         .target(
-            name: "FDTake",
+            name: "EightBalliOS",
+            dependencies: []
+        ),
+        .target(
+            name: "EightBallWatchKit",
             dependencies: []
         ),
         .testTarget(
-            name: "FDTakeTests",
-            dependencies: ["FDTake"]
+            name: "EightBalliOSTests",
+            dependencies: ["EightBalliOS"]
         )
     ]
 )
