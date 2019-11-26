@@ -91,8 +91,8 @@
 		C403B216238D5AF500E60831 = {
 			isa = PBXGroup;
 			children = (
-				C403B225238D5AF500E60831 /* WatchKit Example WatchKit App */,
-				C403B234238D5AF600E60831 /* WatchKit Example WatchKit Extension */,
+				C403B225238D5AF500E60831 /* App */,
+				C403B234238D5AF600E60831 /* Extension */,
 				C403B21E238D5AF500E60831 /* Products */,
 				C403B24F238D5BAA00E60831 /* Frameworks */,
 			);
@@ -108,7 +108,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C403B225238D5AF500E60831 /* WatchKit Example WatchKit App */ = {
+		C403B225238D5AF500E60831 /* App */ = {
 			isa = PBXGroup;
 			children = (
 				C403B226238D5AF500E60831 /* Interface.storyboard */,
@@ -116,10 +116,10 @@
 				C403B22B238D5AF600E60831 /* Info.plist */,
 				C403B24E238D5B5200E60831 /* Resources */,
 			);
-			path = "WatchKit Example WatchKit App";
+			path = App;
 			sourceTree = "<group>";
 		};
-		C403B234238D5AF600E60831 /* WatchKit Example WatchKit Extension */ = {
+		C403B234238D5AF600E60831 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				C403B235238D5AF600E60831 /* InterfaceController.swift */,
@@ -127,7 +127,7 @@
 				C403B239238D5AF600E60831 /* Assets.xcassets */,
 				C403B23B238D5AF600E60831 /* Info.plist */,
 			);
-			path = "WatchKit Example WatchKit Extension";
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		C403B24E238D5B5200E60831 /* Resources */ = {
@@ -435,7 +435,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "WatchKit Example WatchKit Extension/Info.plist";
+				INFOPLIST_FILE = Extension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -456,7 +456,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "WatchKit Example WatchKit Extension/Info.plist";
+				INFOPLIST_FILE = Extension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -479,7 +479,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				IBSC_MODULE = WatchKit_Example_WatchKit_Extension;
-				INFOPLIST_FILE = "WatchKit Example WatchKit App/Info.plist";
+				INFOPLIST_FILE = App/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.WatchKit-Example.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -497,7 +497,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				IBSC_MODULE = WatchKit_Example_WatchKit_Extension;
-				INFOPLIST_FILE = "WatchKit Example WatchKit App/Info.plist";
+				INFOPLIST_FILE = App/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.WatchKit-Example.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;

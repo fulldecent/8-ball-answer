@@ -78,8 +78,8 @@
 		C4D8F3E1238D4B3200950C14 = {
 			isa = PBXGroup;
 			children = (
-				C4D8F3EC238D4B3200950C14 /* iOS Example */,
-				C4F3C6CC238D5C9900F5CB64 /* iOS Example UITests */,
+				C4D8F3EC238D4B3200950C14 /* Sources */,
+				C4F3C6CC238D5C9900F5CB64 /* UITests */,
 				C4D8F3EB238D4B3200950C14 /* Products */,
 				C4D94AAE238D4C0A0047DA4B /* Frameworks */,
 			);
@@ -94,7 +94,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C4D8F3EC238D4B3200950C14 /* iOS Example */ = {
+		C4D8F3EC238D4B3200950C14 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				C4D8F3ED238D4B3200950C14 /* AppDelegate.swift */,
@@ -105,7 +105,7 @@
 				C4D8F3F8238D4B3500950C14 /* LaunchScreen.storyboard */,
 				C4D8F3FB238D4B3500950C14 /* Info.plist */,
 			);
-			path = "iOS Example";
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		C4D94AAE238D4C0A0047DA4B /* Frameworks */ = {
@@ -115,14 +115,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C4F3C6CC238D5C9900F5CB64 /* iOS Example UITests */ = {
+		C4F3C6CC238D5C9900F5CB64 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
 				C4F3C6D5238D5CAB00F5CB64 /* iOSExampleUITests.swift */,
 				C4F3C6D6238D5CAB00F5CB64 /* SnapshotHelper.swift */,
 				C4F3C6CF238D5C9900F5CB64 /* Info.plist */,
 			);
-			path = "iOS Example UITests";
+			path = UITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -394,7 +394,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "iOS Example/Info.plist";
+				INFOPLIST_FILE = Sources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -412,7 +412,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "iOS Example/Info.plist";
+				INFOPLIST_FILE = Sources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -429,7 +429,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "iOS Example UITests/Info.plist";
+				INFOPLIST_FILE = UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -447,7 +447,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "iOS Example UITests/Info.plist";
+				INFOPLIST_FILE = UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
