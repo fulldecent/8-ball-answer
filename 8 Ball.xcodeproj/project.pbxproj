@@ -7,10 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C4D8F3D8238D435B00950C14 /* EightBallController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4D8F3D7238D435B00950C14 /* EightBallController.xib */; };
+		C4D8F3DA238D442B00950C14 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D8F3D9238D442B00950C14 /* ViewController.swift */; };
+		C4D8F3DC238D45A700950C14 /* EightBallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D8F3DB238D45A700950C14 /* EightBallController.swift */; };
+		C4D8F3DE238D49A300950C14 /* EightBallController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4D8F3DD238D49A300950C14 /* EightBallController.storyboard */; };
+		C4D8F3E0238D49F800950C14 /* EightBallController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4D8F3DF238D49F800950C14 /* EightBallController.xcassets */; };
 		D91B47801CE40BA20053826F /* __BallUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91B477F1CE40BA20053826F /* __BallUITests.swift */; };
 		D91B47881CE40BB20053826F /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91B47871CE40BB20053826F /* SnapshotHelper.swift */; };
 		D97258C31BEACCBB002325F0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97258C21BEACCBB002325F0 /* AppDelegate.swift */; };
-		D97258C51BEACCBB002325F0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97258C41BEACCBB002325F0 /* ViewController.swift */; };
+		D97258C51BEACCBB002325F0 /* EightBallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97258C41BEACCBB002325F0 /* EightBallController.swift */; };
 		D97258C81BEACCBB002325F0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D97258C61BEACCBB002325F0 /* Main.storyboard */; };
 		D97258CA1BEACCBB002325F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D97258C91BEACCBB002325F0 /* Assets.xcassets */; };
 		D97258CD1BEACCBB002325F0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D97258CB1BEACCBB002325F0 /* LaunchScreen.storyboard */; };
@@ -73,13 +78,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C4D8F3D7238D435B00950C14 /* EightBallController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EightBallController.xib; sourceTree = "<group>"; };
+		C4D8F3D9238D442B00950C14 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C4D8F3DB238D45A700950C14 /* EightBallController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EightBallController.swift; sourceTree = "<group>"; };
+		C4D8F3DD238D49A300950C14 /* EightBallController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EightBallController.storyboard; sourceTree = "<group>"; };
+		C4D8F3DF238D49F800950C14 /* EightBallController.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = EightBallController.xcassets; sourceTree = "<group>"; };
 		D91B477D1CE40BA20053826F /* 8 BallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "8 BallUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D91B477F1CE40BA20053826F /* __BallUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = __BallUITests.swift; sourceTree = "<group>"; };
 		D91B47811CE40BA20053826F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D91B47871CE40BB20053826F /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		D97258BF1BEACCBB002325F0 /* 8 Ball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "8 Ball.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97258C21BEACCBB002325F0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D97258C41BEACCBB002325F0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D97258C41BEACCBB002325F0 /* EightBallController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EightBallController.swift; sourceTree = "<group>"; };
 		D97258C71BEACCBB002325F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D97258C91BEACCBB002325F0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D97258CC1BEACCBB002325F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -156,7 +166,9 @@
 			isa = PBXGroup;
 			children = (
 				D97258C21BEACCBB002325F0 /* AppDelegate.swift */,
-				D97258C41BEACCBB002325F0 /* ViewController.swift */,
+				C4D8F3D9238D442B00950C14 /* ViewController.swift */,
+				D97258C41BEACCBB002325F0 /* EightBallController.swift */,
+				C4D8F3D7238D435B00950C14 /* EightBallController.xib */,
 				D97258C61BEACCBB002325F0 /* Main.storyboard */,
 				D97258C91BEACCBB002325F0 /* Assets.xcassets */,
 				D97258CB1BEACCBB002325F0 /* LaunchScreen.storyboard */,
@@ -171,6 +183,8 @@
 				D97258D61BEACCBB002325F0 /* Interface.storyboard */,
 				D97258D91BEACCBB002325F0 /* Assets.xcassets */,
 				D97258DB1BEACCBB002325F0 /* Info.plist */,
+				C4D8F3DD238D49A300950C14 /* EightBallController.storyboard */,
+				C4D8F3DF238D49F800950C14 /* EightBallController.xcassets */,
 			);
 			path = "8 Ball WatchKit App";
 			sourceTree = "<group>";
@@ -178,6 +192,7 @@
 		D97258E41BEACCBB002325F0 /* 8 Ball WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				C4D8F3DB238D45A700950C14 /* EightBallController.swift */,
 				D97258E51BEACCBB002325F0 /* InterfaceController.swift */,
 				D97258E71BEACCBB002325F0 /* ExtensionDelegate.swift */,
 				D97258E91BEACCBB002325F0 /* Assets.xcassets */,
@@ -326,6 +341,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4D8F3D8238D435B00950C14 /* EightBallController.xib in Resources */,
 				D97258CD1BEACCBB002325F0 /* LaunchScreen.storyboard in Resources */,
 				D97258CA1BEACCBB002325F0 /* Assets.xcassets in Resources */,
 				D97258C81BEACCBB002325F0 /* Main.storyboard in Resources */,
@@ -336,6 +352,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4D8F3E0238D49F800950C14 /* EightBallController.xcassets in Resources */,
+				C4D8F3DE238D49A300950C14 /* EightBallController.storyboard in Resources */,
 				D97258DA1BEACCBB002325F0 /* Assets.xcassets in Resources */,
 				D97258D81BEACCBB002325F0 /* Interface.storyboard in Resources */,
 			);
@@ -365,7 +383,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D97258C51BEACCBB002325F0 /* ViewController.swift in Sources */,
+				C4D8F3DA238D442B00950C14 /* ViewController.swift in Sources */,
+				D97258C51BEACCBB002325F0 /* EightBallController.swift in Sources */,
 				D97258C31BEACCBB002325F0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -375,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D97258E81BEACCBB002325F0 /* ExtensionDelegate.swift in Sources */,
+				C4D8F3DC238D45A700950C14 /* EightBallController.swift in Sources */,
 				D97258E61BEACCBB002325F0 /* InterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EightBallController" customModule="__Ball" customModuleProvider="target">
+            <connections>
+                <outlet property="answer" destination="Vsi-Cg-lr1" id="HAT-hk-RIH"/>
+                <outlet property="view" destination="WxI-Kc-CxS" id="ejZ-BR-HfB"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="WxI-Kc-CxS">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap for answer" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="Vsi-Cg-lr1">
+                    <rect key="frame" x="20" y="54" width="374" height="798"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="80"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Vsi-Cg-lr1" firstAttribute="centerX" secondItem="WxI-Kc-CxS" secondAttribute="centerX" id="42J-tD-JQA"/>
+                <constraint firstItem="QJR-Di-chr" firstAttribute="top" secondItem="Vsi-Cg-lr1" secondAttribute="top" constant="-10" id="66s-pi-8JV"/>
+                <constraint firstItem="Vsi-Cg-lr1" firstAttribute="leading" secondItem="WxI-Kc-CxS" secondAttribute="leadingMargin" constant="-4" id="B8k-2N-hDN"/>
+                <constraint firstItem="Vsi-Cg-lr1" firstAttribute="leading" secondItem="WxI-Kc-CxS" secondAttribute="leadingMargin" id="C1P-6H-7as"/>
+                <constraint firstAttribute="trailingMargin" secondItem="Vsi-Cg-lr1" secondAttribute="trailing" id="r8U-Bg-Iv7"/>
+                <constraint firstItem="QJR-Di-chr" firstAttribute="bottom" secondItem="Vsi-Cg-lr1" secondAttribute="bottom" constant="10" id="tRL-qy-GDJ"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="QJR-Di-chr"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="B8k-2N-hDN"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="239" y="-504"/>
+        </view>
+    </objects>
+</document>
