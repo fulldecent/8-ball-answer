@@ -38,8 +38,8 @@ class InterfaceController: WKInterfaceController {
     ]
     
     @IBAction func buttonPressed() {
-        let random = Int(arc4random_uniform(UInt32(self.answers.count)))
-        self.theButton.setTitle(self.answers[random])
+        let random = answers.randomElement()
+        theButton.setTitle(random)
     }
     
     override func awake(withContext context: Any?) {
