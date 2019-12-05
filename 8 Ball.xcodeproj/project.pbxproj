@@ -570,6 +570,7 @@
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				INFOPLIST_FILE = "8 Ball WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -588,6 +589,7 @@
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				INFOPLIST_FILE = "8 Ball WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -608,6 +610,7 @@
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				IBSC_MODULE = __Ball_WatchKit_Extension;
 				INFOPLIST_FILE = "8 Ball WatchKit App/Info.plist";
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -628,6 +631,7 @@
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				IBSC_MODULE = __Ball_WatchKit_Extension;
 				INFOPLIST_FILE = "8 Ball WatchKit App/Info.plist";
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -647,6 +651,7 @@
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				INFOPLIST_FILE = "8 Ball/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -662,6 +667,7 @@
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				INFOPLIST_FILE = "8 Ball/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
