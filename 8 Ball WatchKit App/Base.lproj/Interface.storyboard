@@ -1,26 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9060" systemVersion="15C31f" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="15702" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3mp-fW-waa">
+    <device id="watch38"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9019"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15501"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--Hosting Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="__Ball_WatchKit_App" customModuleProvider="target">
-                    <items>
-                        <button width="1" height="1" alignment="center" verticalAlignment="center" title="Tap for answer" backgroundImage="bg2" id="42A-aa-RK0">
-                            <connections>
-                                <action selector="buttonPressed" destination="AgC-eL-Hgc" id="cTw-Qf-9bG"/>
-                            </connections>
-                        </button>
-                    </items>
-                    <connections>
-                        <outlet property="theButton" destination="42A-aa-RK0" id="27r-Ma-w68"/>
-                    </connections>
-                </controller>
+                <hostingController id="3mp-fW-waa" customClass="HostingController" customModule="__Ball_WatchKit_App" customModuleProvider="target"/>
             </objects>
+            <point key="canvasLocation" x="122" y="31"/>
         </scene>
     </scenes>
 </document>
