@@ -1,3 +1,5 @@
+Get in on the App Store: https://apps.apple.com/us/app/8-ball-answer/id995732766
+
 # 8 Ball Answers
 
 A delightfully simple iOS + watchOS app for answering questions
