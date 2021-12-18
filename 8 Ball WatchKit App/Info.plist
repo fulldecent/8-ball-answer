@@ -27,6 +27,8 @@
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
 	<string>net.phor.--Ball</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>WKWatchKitApp</key>
 	<true/>
 </dict>
