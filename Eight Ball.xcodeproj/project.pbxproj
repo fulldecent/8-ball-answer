@@ -13,10 +13,10 @@
 		D91605B823BD9A240089CAF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D91605B723BD9A240089CAF0 /* Assets.xcassets */; };
 		D91605BB23BD9A240089CAF0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D91605BA23BD9A240089CAF0 /* Preview Assets.xcassets */; };
 		D91605BE23BD9A240089CAF0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D91605BC23BD9A240089CAF0 /* LaunchScreen.storyboard */; };
-		D91605C323BD9A240089CAF0 /* 8 Ball WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D91605C223BD9A240089CAF0 /* 8 Ball WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D91605C323BD9A240089CAF0 /* Eight Ball WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D91605C223BD9A240089CAF0 /* Eight Ball WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D91605C923BD9A240089CAF0 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D91605C723BD9A240089CAF0 /* Interface.storyboard */; };
 		D91605CB23BD9A240089CAF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D91605CA23BD9A240089CAF0 /* Assets.xcassets */; };
-		D91605D223BD9A250089CAF0 /* 8 Ball WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D91605D123BD9A250089CAF0 /* 8 Ball WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D91605D223BD9A250089CAF0 /* Eight Ball WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D91605D123BD9A250089CAF0 /* Eight Ball WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D91605D723BD9A250089CAF0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91605D623BD9A250089CAF0 /* ContentView.swift */; };
 		D91605D923BD9A250089CAF0 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91605D823BD9A250089CAF0 /* HostingController.swift */; };
 		D91605DB23BD9A250089CAF0 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91605DA23BD9A250089CAF0 /* ExtensionDelegate.swift */; };
@@ -48,7 +48,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				D91605D223BD9A250089CAF0 /* 8 Ball WatchKit Extension.appex in Embed App Extensions */,
+				D91605D223BD9A250089CAF0 /* Eight Ball WatchKit Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,7 +59,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				D91605C323BD9A240089CAF0 /* 8 Ball WatchKit App.app in Embed Watch Content */,
+				D91605C323BD9A240089CAF0 /* Eight Ball WatchKit App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,7 +67,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D91605AE23BD9A220089CAF0 /* 8 Ball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "8 Ball.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D91605AE23BD9A220089CAF0 /* Eight Ball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Eight Ball.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D91605B123BD9A220089CAF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D91605B323BD9A220089CAF0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D91605B523BD9A220089CAF0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -75,11 +75,11 @@
 		D91605BA23BD9A240089CAF0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D91605BD23BD9A240089CAF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D91605BF23BD9A240089CAF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D91605C223BD9A240089CAF0 /* 8 Ball WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "8 Ball WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D91605C223BD9A240089CAF0 /* Eight Ball WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Eight Ball WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D91605C823BD9A240089CAF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		D91605CA23BD9A240089CAF0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D91605CC23BD9A240089CAF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D91605D123BD9A250089CAF0 /* 8 Ball WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "8 Ball WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D91605D123BD9A250089CAF0 /* Eight Ball WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Eight Ball WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D91605D623BD9A250089CAF0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D91605D823BD9A250089CAF0 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		D91605DA23BD9A250089CAF0 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
@@ -119,9 +119,9 @@
 		D91605AF23BD9A220089CAF0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D91605AE23BD9A220089CAF0 /* 8 Ball.app */,
-				D91605C223BD9A240089CAF0 /* 8 Ball WatchKit App.app */,
-				D91605D123BD9A250089CAF0 /* 8 Ball WatchKit Extension.appex */,
+				D91605AE23BD9A220089CAF0 /* Eight Ball.app */,
+				D91605C223BD9A240089CAF0 /* Eight Ball WatchKit App.app */,
+				D91605D123BD9A250089CAF0 /* Eight Ball WatchKit Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -182,9 +182,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D91605AD23BD9A220089CAF0 /* 8 Ball */ = {
+		D91605AD23BD9A220089CAF0 /* Eight Ball */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D91605EC23BD9A250089CAF0 /* Build configuration list for PBXNativeTarget "8 Ball" */;
+			buildConfigurationList = D91605EC23BD9A250089CAF0 /* Build configuration list for PBXNativeTarget "Eight Ball" */;
 			buildPhases = (
 				D91605AA23BD9A220089CAF0 /* Sources */,
 				D91605AB23BD9A220089CAF0 /* Frameworks */,
@@ -196,14 +196,14 @@
 			dependencies = (
 				D91605C523BD9A240089CAF0 /* PBXTargetDependency */,
 			);
-			name = "8 Ball";
+			name = "Eight Ball";
 			productName = "8 Ball";
-			productReference = D91605AE23BD9A220089CAF0 /* 8 Ball.app */;
+			productReference = D91605AE23BD9A220089CAF0 /* Eight Ball.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D91605C123BD9A240089CAF0 /* 8 Ball WatchKit App */ = {
+		D91605C123BD9A240089CAF0 /* Eight Ball WatchKit App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D91605E823BD9A250089CAF0 /* Build configuration list for PBXNativeTarget "8 Ball WatchKit App" */;
+			buildConfigurationList = D91605E823BD9A250089CAF0 /* Build configuration list for PBXNativeTarget "Eight Ball WatchKit App" */;
 			buildPhases = (
 				D91605C023BD9A240089CAF0 /* Resources */,
 				D91605E723BD9A250089CAF0 /* Embed App Extensions */,
@@ -213,14 +213,14 @@
 			dependencies = (
 				D91605D423BD9A250089CAF0 /* PBXTargetDependency */,
 			);
-			name = "8 Ball WatchKit App";
+			name = "Eight Ball WatchKit App";
 			productName = "8 Ball WatchKit App";
-			productReference = D91605C223BD9A240089CAF0 /* 8 Ball WatchKit App.app */;
+			productReference = D91605C223BD9A240089CAF0 /* Eight Ball WatchKit App.app */;
 			productType = "com.apple.product-type.application.watchapp2";
 		};
-		D91605D023BD9A250089CAF0 /* 8 Ball WatchKit Extension */ = {
+		D91605D023BD9A250089CAF0 /* Eight Ball WatchKit Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D91605E423BD9A250089CAF0 /* Build configuration list for PBXNativeTarget "8 Ball WatchKit Extension" */;
+			buildConfigurationList = D91605E423BD9A250089CAF0 /* Build configuration list for PBXNativeTarget "Eight Ball WatchKit Extension" */;
 			buildPhases = (
 				D91605CD23BD9A250089CAF0 /* Sources */,
 				D91605CE23BD9A250089CAF0 /* Frameworks */,
@@ -230,9 +230,9 @@
 			);
 			dependencies = (
 			);
-			name = "8 Ball WatchKit Extension";
+			name = "Eight Ball WatchKit Extension";
 			productName = "8 Ball WatchKit Extension";
-			productReference = D91605D123BD9A250089CAF0 /* 8 Ball WatchKit Extension.appex */;
+			productReference = D91605D123BD9A250089CAF0 /* Eight Ball WatchKit Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
 		};
 /* End PBXNativeTarget section */
@@ -256,7 +256,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D91605A923BD9A220089CAF0 /* Build configuration list for PBXProject "8 Ball" */;
+			buildConfigurationList = D91605A923BD9A220089CAF0 /* Build configuration list for PBXProject "Eight Ball" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -269,9 +269,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D91605AD23BD9A220089CAF0 /* 8 Ball */,
-				D91605C123BD9A240089CAF0 /* 8 Ball WatchKit App */,
-				D91605D023BD9A250089CAF0 /* 8 Ball WatchKit Extension */,
+				D91605AD23BD9A220089CAF0 /* Eight Ball */,
+				D91605C123BD9A240089CAF0 /* Eight Ball WatchKit App */,
+				D91605D023BD9A250089CAF0 /* Eight Ball WatchKit Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -333,12 +333,12 @@
 /* Begin PBXTargetDependency section */
 		D91605C523BD9A240089CAF0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D91605C123BD9A240089CAF0 /* 8 Ball WatchKit App */;
+			target = D91605C123BD9A240089CAF0 /* Eight Ball WatchKit App */;
 			targetProxy = D91605C423BD9A240089CAF0 /* PBXContainerItemProxy */;
 		};
 		D91605D423BD9A250089CAF0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D91605D023BD9A250089CAF0 /* 8 Ball WatchKit Extension */;
+			target = D91605D023BD9A250089CAF0 /* Eight Ball WatchKit Extension */;
 			targetProxy = D91605D323BD9A250089CAF0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -618,7 +618,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D91605A923BD9A220089CAF0 /* Build configuration list for PBXProject "8 Ball" */ = {
+		D91605A923BD9A220089CAF0 /* Build configuration list for PBXProject "Eight Ball" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D91605E223BD9A250089CAF0 /* Debug */,
@@ -627,7 +627,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D91605E423BD9A250089CAF0 /* Build configuration list for PBXNativeTarget "8 Ball WatchKit Extension" */ = {
+		D91605E423BD9A250089CAF0 /* Build configuration list for PBXNativeTarget "Eight Ball WatchKit Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D91605E523BD9A250089CAF0 /* Debug */,
@@ -636,7 +636,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D91605E823BD9A250089CAF0 /* Build configuration list for PBXNativeTarget "8 Ball WatchKit App" */ = {
+		D91605E823BD9A250089CAF0 /* Build configuration list for PBXNativeTarget "Eight Ball WatchKit App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D91605E923BD9A250089CAF0 /* Debug */,
@@ -645,7 +645,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D91605EC23BD9A250089CAF0 /* Build configuration list for PBXNativeTarget "8 Ball" */ = {
+		D91605EC23BD9A250089CAF0 /* Build configuration list for PBXNativeTarget "Eight Ball" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D91605ED23BD9A250089CAF0 /* Debug */,
