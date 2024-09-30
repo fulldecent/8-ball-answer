@@ -2,13 +2,12 @@
 //  ContentView.swift
 //  8 Ball
 //
-//  Created by William Entriken on 2020-01-01.
-//  Copyright © 2020 William Entriken. All rights reserved.
+//  Created by William Entriken on 2024-03-14.
 //
 
 import SwiftUI
 
-var answers = [
+let answers = [
     "It is certain",
     "It is decidedly so",
     "Without a doubt",
@@ -56,8 +55,6 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+#Preview {
+    ContentView()
 }

@@ -1,0 +1,10 @@
+git_url(ENV["GIT_URL"])
+type("appstore")
+
+app_identifier([
+  "net.phor.--Ball66",
+  "net.phor.--Ball66.watchkitapp"
+])
+
+keychain_name(ENV["KEYCHAIN_NAME"])
+keychain_password(ENV["MATCH_KEYCHAIN_PASSWORD"])
