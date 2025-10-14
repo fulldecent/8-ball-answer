@@ -8,7 +8,47 @@
 
 /* Begin PBXBuildFile section */
 		D998216D2E9E0C9E00CD6670 /* answers-by-locale.json in Resources */ = {isa = PBXBuildFile; fileRef = D99821662E9E0C9E00CD6670 /* answers-by-locale.json */; };
+		D99821992E9E101600CD6670 /* 8 Ball Watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D99821792E9E101500CD6670 /* 8 Ball Watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D99821A42E9E107E00CD6670 /* answers-by-locale.json in Resources */ = {isa = PBXBuildFile; fileRef = D99821662E9E0C9E00CD6670 /* answers-by-locale.json */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D91723552E9D9ED3008C2275 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D917233F2E9D9ED3008C2275 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D91723462E9D9ED3008C2275;
+			remoteInfo = "8 Ball";
+		};
+		D917235F2E9D9ED4008C2275 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D917233F2E9D9ED3008C2275 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D91723462E9D9ED3008C2275;
+			remoteInfo = "8 Ball";
+		};
+		D99821862E9E101600CD6670 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D917233F2E9D9ED3008C2275 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D99821782E9E101500CD6670;
+			remoteInfo = "8 Ball Watch Watch App";
+		};
+		D99821902E9E101600CD6670 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D917233F2E9D9ED3008C2275 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D99821782E9E101500CD6670;
+			remoteInfo = "8 Ball Watch Watch App";
+		};
+		D99821972E9E101600CD6670 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D917233F2E9D9ED3008C2275 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D99821782E9E101500CD6670;
+			remoteInfo = "8 Ball Watch Watch App";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D998219A2E9E101600CD6670 /* Embed Watch Content */ = {
@@ -17,6 +57,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
+				D99821992E9E101600CD6670 /* 8 Ball Watch Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -25,7 +66,12 @@
 
 /* Begin PBXFileReference section */
 		D91723472E9D9ED3008C2275 /* 8 Ball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "8 Ball.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D91723542E9D9ED3008C2275 /* 8 BallTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "8 BallTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D917235E2E9D9ED4008C2275 /* 8 BallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "8 BallUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D99821662E9E0C9E00CD6670 /* answers-by-locale.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "answers-by-locale.json"; sourceTree = "<group>"; };
+		D99821792E9E101500CD6670 /* 8 Ball Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "8 Ball Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D99821852E9E101600CD6670 /* 8 Ball Watch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "8 Ball Watch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D998218F2E9E101600CD6670 /* 8 Ball Watch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "8 Ball Watch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -34,10 +80,70 @@
 			path = "8 Ball";
 			sourceTree = "<group>";
 		};
+		D91723572E9D9ED3008C2275 /* 8 BallTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "8 BallTests";
+			sourceTree = "<group>";
+		};
+		D91723612E9D9ED4008C2275 /* 8 BallUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "8 BallUITests";
+			sourceTree = "<group>";
+		};
+		D998217A2E9E101500CD6670 /* 8 Ball Watch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "8 Ball Watch Watch App";
+			sourceTree = "<group>";
+		};
+		D99821882E9E101600CD6670 /* 8 Ball Watch Watch AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "8 Ball Watch Watch AppTests";
+			sourceTree = "<group>";
+		};
+		D99821922E9E101600CD6670 /* 8 Ball Watch Watch AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "8 Ball Watch Watch AppUITests";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		D91723442E9D9ED3008C2275 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D91723512E9D9ED3008C2275 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D917235B2E9D9ED4008C2275 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D99821762E9E101500CD6670 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D99821822E9E101600CD6670 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D998218C2E9E101600CD6670 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -52,6 +158,11 @@
 			children = (
 				D99821662E9E0C9E00CD6670 /* answers-by-locale.json */,
 				D91723492E9D9ED3008C2275 /* 8 Ball */,
+				D91723572E9D9ED3008C2275 /* 8 BallTests */,
+				D91723612E9D9ED4008C2275 /* 8 BallUITests */,
+				D998217A2E9E101500CD6670 /* 8 Ball Watch Watch App */,
+				D99821882E9E101600CD6670 /* 8 Ball Watch Watch AppTests */,
+				D99821922E9E101600CD6670 /* 8 Ball Watch Watch AppUITests */,
 				D91723482E9D9ED3008C2275 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,6 +171,11 @@
 			isa = PBXGroup;
 			children = (
 				D91723472E9D9ED3008C2275 /* 8 Ball.app */,
+				D91723542E9D9ED3008C2275 /* 8 BallTests.xctest */,
+				D917235E2E9D9ED4008C2275 /* 8 BallUITests.xctest */,
+				D99821792E9E101500CD6670 /* 8 Ball Watch Watch App.app */,
+				D99821852E9E101600CD6670 /* 8 Ball Watch Watch AppTests.xctest */,
+				D998218F2E9E101600CD6670 /* 8 Ball Watch Watch AppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,6 +195,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D99821982E9E101600CD6670 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				D91723492E9D9ED3008C2275 /* 8 Ball */,
@@ -89,6 +206,120 @@
 			productName = "8 Ball";
 			productReference = D91723472E9D9ED3008C2275 /* 8 Ball.app */;
 			productType = "com.apple.product-type.application";
+		};
+		D91723532E9D9ED3008C2275 /* 8 BallTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D917236B2E9D9ED4008C2275 /* Build configuration list for PBXNativeTarget "8 BallTests" */;
+			buildPhases = (
+				D91723502E9D9ED3008C2275 /* Sources */,
+				D91723512E9D9ED3008C2275 /* Frameworks */,
+				D91723522E9D9ED3008C2275 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D91723562E9D9ED3008C2275 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D91723572E9D9ED3008C2275 /* 8 BallTests */,
+			);
+			name = "8 BallTests";
+			packageProductDependencies = (
+			);
+			productName = "8 BallTests";
+			productReference = D91723542E9D9ED3008C2275 /* 8 BallTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D917235D2E9D9ED4008C2275 /* 8 BallUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D917236E2E9D9ED4008C2275 /* Build configuration list for PBXNativeTarget "8 BallUITests" */;
+			buildPhases = (
+				D917235A2E9D9ED4008C2275 /* Sources */,
+				D917235B2E9D9ED4008C2275 /* Frameworks */,
+				D917235C2E9D9ED4008C2275 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D91723602E9D9ED4008C2275 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D91723612E9D9ED4008C2275 /* 8 BallUITests */,
+			);
+			name = "8 BallUITests";
+			packageProductDependencies = (
+			);
+			productName = "8 BallUITests";
+			productReference = D917235E2E9D9ED4008C2275 /* 8 BallUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		D99821782E9E101500CD6670 /* 8 Ball Watch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D99821A12E9E101600CD6670 /* Build configuration list for PBXNativeTarget "8 Ball Watch Watch App" */;
+			buildPhases = (
+				D99821752E9E101500CD6670 /* Sources */,
+				D99821762E9E101500CD6670 /* Frameworks */,
+				D99821772E9E101500CD6670 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D998217A2E9E101500CD6670 /* 8 Ball Watch Watch App */,
+			);
+			name = "8 Ball Watch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "8 Ball Watch Watch App";
+			productReference = D99821792E9E101500CD6670 /* 8 Ball Watch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D99821842E9E101600CD6670 /* 8 Ball Watch Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D99821A22E9E101600CD6670 /* Build configuration list for PBXNativeTarget "8 Ball Watch Watch AppTests" */;
+			buildPhases = (
+				D99821812E9E101600CD6670 /* Sources */,
+				D99821822E9E101600CD6670 /* Frameworks */,
+				D99821832E9E101600CD6670 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D99821872E9E101600CD6670 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D99821882E9E101600CD6670 /* 8 Ball Watch Watch AppTests */,
+			);
+			name = "8 Ball Watch Watch AppTests";
+			packageProductDependencies = (
+			);
+			productName = "8 Ball Watch Watch AppTests";
+			productReference = D99821852E9E101600CD6670 /* 8 Ball Watch Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D998218E2E9E101600CD6670 /* 8 Ball Watch Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D99821A32E9E101600CD6670 /* Build configuration list for PBXNativeTarget "8 Ball Watch Watch AppUITests" */;
+			buildPhases = (
+				D998218B2E9E101600CD6670 /* Sources */,
+				D998218C2E9E101600CD6670 /* Frameworks */,
+				D998218D2E9E101600CD6670 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D99821912E9E101600CD6670 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D99821922E9E101600CD6670 /* 8 Ball Watch Watch AppUITests */,
+			);
+			name = "8 Ball Watch Watch AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "8 Ball Watch Watch AppUITests";
+			productReference = D998218F2E9E101600CD6670 /* 8 Ball Watch Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -102,6 +333,25 @@
 				TargetAttributes = {
 					D91723462E9D9ED3008C2275 = {
 						CreatedOnToolsVersion = 26.0.1;
+					};
+					D91723532E9D9ED3008C2275 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = D91723462E9D9ED3008C2275;
+					};
+					D917235D2E9D9ED4008C2275 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = D91723462E9D9ED3008C2275;
+					};
+					D99821782E9E101500CD6670 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					D99821842E9E101600CD6670 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = D99821782E9E101500CD6670;
+					};
+					D998218E2E9E101600CD6670 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = D99821782E9E101500CD6670;
 					};
 				};
 			};
@@ -120,6 +370,11 @@
 			projectRoot = "";
 			targets = (
 				D91723462E9D9ED3008C2275 /* 8 Ball */,
+				D91723532E9D9ED3008C2275 /* 8 BallTests */,
+				D917235D2E9D9ED4008C2275 /* 8 BallUITests */,
+				D99821782E9E101500CD6670 /* 8 Ball Watch Watch App */,
+				D99821842E9E101600CD6670 /* 8 Ball Watch Watch AppTests */,
+				D998218E2E9E101600CD6670 /* 8 Ball Watch Watch AppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -133,6 +388,42 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D91723522E9D9ED3008C2275 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D917235C2E9D9ED4008C2275 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D99821772E9E101500CD6670 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D99821A42E9E107E00CD6670 /* answers-by-locale.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D99821832E9E101600CD6670 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D998218D2E9E101600CD6670 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -143,7 +434,70 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D91723502E9D9ED3008C2275 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D917235A2E9D9ED4008C2275 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D99821752E9E101500CD6670 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D99821812E9E101600CD6670 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D998218B2E9E101600CD6670 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D91723562E9D9ED3008C2275 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D91723462E9D9ED3008C2275 /* 8 Ball */;
+			targetProxy = D91723552E9D9ED3008C2275 /* PBXContainerItemProxy */;
+		};
+		D91723602E9D9ED4008C2275 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D91723462E9D9ED3008C2275 /* 8 Ball */;
+			targetProxy = D917235F2E9D9ED4008C2275 /* PBXContainerItemProxy */;
+		};
+		D99821872E9E101600CD6670 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D99821782E9E101500CD6670 /* 8 Ball Watch Watch App */;
+			targetProxy = D99821862E9E101600CD6670 /* PBXContainerItemProxy */;
+		};
+		D99821912E9E101600CD6670 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D99821782E9E101500CD6670 /* 8 Ball Watch Watch App */;
+			targetProxy = D99821902E9E101600CD6670 /* PBXContainerItemProxy */;
+		};
+		D99821982E9E101600CD6670 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D99821782E9E101500CD6670 /* 8 Ball Watch Watch App */;
+			targetProxy = D99821972E9E101600CD6670 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D91723662E9D9ED4008C2275 /* Debug */ = {
@@ -267,19 +621,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 8Q693ZG5RN;
-				"DEVELOPMENT_TEAM[sdk=xros*]" = 8Q693ZG5RN;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "--Ball-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "8 Ball Answers";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -297,9 +647,6 @@
 				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "8Q693ZG5RN.net.phor.--Ball provisioning";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=xros*]" = "8Q693ZG5RN.net.phor.--Ball provisioning";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -319,7 +666,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8Q693ZG5RN;
@@ -328,9 +674,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "--Ball-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "8 Ball Answers";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -348,7 +692,6 @@
 				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -360,6 +703,269 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		D917236C2E9D9ED4008C2275 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--BallTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/8 Ball.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/8 Ball";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		D917236D2E9D9ED4008C2275 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--BallTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/8 Ball.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/8 Ball";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		D917236F2E9D9ED4008C2275 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--BallUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_TARGET_NAME = "8 Ball";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		D91723702E9D9ED4008C2275 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--BallUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_TARGET_NAME = "8 Ball";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		D998219B2E9E101600CD6670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "8 Ball Watch";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "net.phor.--Ball";
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		D998219C2E9E101600CD6670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "8 Ball Watch";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "net.phor.--Ball";
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		D998219D2E9E101600CD6670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball-Watch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/8 Ball Watch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/8 Ball Watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		D998219E2E9E101600CD6670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball-Watch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/8 Ball Watch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/8 Ball Watch Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		D998219F2E9E101600CD6670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball-Watch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "8 Ball Watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		D99821A02E9E101600CD6670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Q693ZG5RN;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball-Watch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "8 Ball Watch Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
 		};
@@ -380,6 +986,51 @@
 			buildConfigurations = (
 				D91723692E9D9ED4008C2275 /* Debug */,
 				D917236A2E9D9ED4008C2275 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D917236B2E9D9ED4008C2275 /* Build configuration list for PBXNativeTarget "8 BallTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D917236C2E9D9ED4008C2275 /* Debug */,
+				D917236D2E9D9ED4008C2275 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D917236E2E9D9ED4008C2275 /* Build configuration list for PBXNativeTarget "8 BallUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D917236F2E9D9ED4008C2275 /* Debug */,
+				D91723702E9D9ED4008C2275 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D99821A12E9E101600CD6670 /* Build configuration list for PBXNativeTarget "8 Ball Watch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D998219B2E9E101600CD6670 /* Debug */,
+				D998219C2E9E101600CD6670 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D99821A22E9E101600CD6670 /* Build configuration list for PBXNativeTarget "8 Ball Watch Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D998219D2E9E101600CD6670 /* Debug */,
+				D998219E2E9E101600CD6670 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D99821A32E9E101600CD6670 /* Build configuration list for PBXNativeTarget "8 Ball Watch Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D998219F2E9E101600CD6670 /* Debug */,
+				D99821A02E9E101600CD6670 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
