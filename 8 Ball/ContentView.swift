@@ -32,6 +32,11 @@ struct ContentView: View {
                     self.scale = 1.0
                 }
             }
+            .onAppear {
+                if ProcessInfo.processInfo.arguments.contains("-screenshot") {
+                    fortune = answersModel.getAnswer()
+                }
+            }
     }
 }
 
