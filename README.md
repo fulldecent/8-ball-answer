@@ -99,4 +99,3 @@ The iOS and macOS `beta` lanes upload via `xcrun altool` directly because fastla
 ### Note: rsync workaround
 
 The `before_all` hook in `fastlane/Fastfile` strips `/opt/homebrew` and `/usr/local` from `PATH` before `xcodebuild -exportArchive` runs. Without this, Xcode 26's IPA packaging step can fail with `Copy failed` because `/usr/bin/rsync` and Homebrew's `rsync` disagree on the `-E` flag.
-
