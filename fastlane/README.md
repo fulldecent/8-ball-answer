@@ -31,7 +31,6 @@ Bump only the build number (used before each beta upload)
 
 ----
 
-
 ## iOS
 
 ### ios screenshots
@@ -41,6 +40,8 @@ Bump only the build number (used before each beta upload)
 ```
 
 Capture App Store screenshots for iPhone, iPad, and Apple Watch
+
+Pass `locales:en-US` and `devices:"iPhone 17 Pro Max,Apple Watch Ultra 3 (49mm)"` to filter.
 
 ### ios upload_screenshots
 
@@ -96,10 +97,9 @@ Build the signed release .ipa without uploading
 [bundle exec] fastlane ios release
 ```
 
-Capture screenshots, attach the latest TestFlight build, and submit for review
+Submit the latest TestFlight build for App Store review
 
 ----
-
 
 ## Mac
 
@@ -111,6 +111,14 @@ Capture screenshots, attach the latest TestFlight build, and submit for review
 
 Build a signed macOS .pkg and upload it to TestFlight
 
+### mac upload_screenshots
+
+```sh
+[bundle exec] fastlane mac upload_screenshots
+```
+
+Upload staged macOS screenshots to App Store Connect
+
 ### mac release
 
 ```sh
@@ -118,6 +126,22 @@ Build a signed macOS .pkg and upload it to TestFlight
 ```
 
 Submit the latest macOS TestFlight build for App Store review
+
+### ios full_release
+
+```sh
+[bundle exec] fastlane ios full_release
+```
+
+Full pipeline (iOS): bump_version, beta, screenshots, upload_screenshots, release. Pass notes:'...'
+
+### mac full_release
+
+```sh
+[bundle exec] fastlane mac full_release
+```
+
+Full pipeline (macOS): bump_version, beta, upload_screenshots, release. Pass notes:'...'
 
 ----
 

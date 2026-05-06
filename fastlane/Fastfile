@@ -51,33 +51,12 @@ def current_build_number
   get_build_number(xcodeproj: xcodeproj_path).to_s.to_i
 end
 
+# Simple local build number increment per apple-development skill.
+# If upload fails with 'previousBundleVersion' or 'already been used',
+# do a one-time fix: set CURRENT_PROJECT_VERSION to remote highest + 1
+# in the Xcode project, commit, then resume normal local increments.
 def next_build_number
-  local_build = current_build_number
-  remote_build = 0
-  remote_version_build = 0
-
-  begin
-    remote_build = latest_testflight_build_number(
-      app_identifier: BUNDLE_ID,
-      initial_build_number: [local_build, 1].max,
-      live: false
-    ).to_i
-  rescue => error
-    UI.important("Falling back to local build number because App Store Connect overall build lookup failed: #{error.message}")
-  end
-
-  begin
-    remote_version_build = latest_testflight_build_number(
-      app_identifier: BUNDLE_ID,
-      version: current_marketing_version,
-      initial_build_number: [local_build, 1].max,
-      live: false
-    ).to_i
-  rescue => error
-    UI.important("Falling back to overall build number because App Store Connect version-specific build lookup failed: #{error.message}")
-  end
-
-  [local_build, remote_build, remote_version_build].max + 1
+  current_build_number + 1
 end
 
 def bump_build_number!(build_number = nil)
@@ -236,14 +215,24 @@ lane :bump_build do
 end
 
 platform :ios do
-  desc "Capture App Store screenshots for iPhone, iPad, and Apple Watch"
-  lane :screenshots do
+  desc "Capture App Store screenshots for iPhone, iPad, and Apple Watch. Pass locales:en-US and devices:'iPhone 17 Pro Max,Apple Watch Ultra 3 (49mm)' to filter"
+  lane :screenshots do |options|
+    locale_filter = options[:locales].to_s.split(",").map(&:strip).reject(&:empty?)
+    unless locale_filter.empty?
+      UI.user_error!("Only en-US is currently supported") unless locale_filter == ["en-US"]
+    end
+
+    device_filter = options[:devices].to_s.split(",").map(&:strip).reject(&:empty?)
     output_dir = File.expand_path("screenshots/en-US", __dir__)
     FileUtils.mkdir_p(output_dir)
     FileUtils.rm_f(Dir.glob(File.join(output_dir, "*.png")))
 
-    selected_ios_devices = IOS_DEVICES.map { |device| latest_simulator_for(device[:name], "iOS") }
-    selected_watch_devices = WATCH_DEVICES.map { |device| latest_simulator_for(device[:name], "watchOS") }
+    ios_devices = device_filter.empty? ? IOS_DEVICES : IOS_DEVICES.select { |device| device_filter.include?(device[:name]) }
+    watch_devices = device_filter.empty? ? WATCH_DEVICES : WATCH_DEVICES.select { |device| device_filter.include?(device[:name]) }
+    UI.user_error!("No matching devices found for devices filter") if ios_devices.empty? && watch_devices.empty?
+
+    selected_ios_devices = ios_devices.map { |device| latest_simulator_for(device[:name], "iOS") }
+    selected_watch_devices = watch_devices.map { |device| latest_simulator_for(device[:name], "watchOS") }
 
     # Build for iOS Simulator
     sh(
@@ -258,7 +247,7 @@ platform :ios do
     ios_app = Dir.glob("../build/Build/Products/*-iphonesimulator/8 Ball.app").first
     UI.user_error!("Could not find iOS app in ../build") unless ios_app
 
-    IOS_DEVICES.zip(selected_ios_devices).each do |device, selected_sim|
+    ios_devices.zip(selected_ios_devices).each do |device, selected_sim|
       capture_device_screenshots(device.merge(udid: selected_sim[:udid], bundle_id: BUNDLE_ID), ios_app, output_dir)
     end
 
@@ -275,7 +264,7 @@ platform :ios do
     watch_app = Dir.glob("../build/Build/Products/*-watchsimulator/8 Ball.app").first
     UI.user_error!("Could not find watchOS app in ../build") unless watch_app
 
-    WATCH_DEVICES.zip(selected_watch_devices).each do |device, selected_sim|
+    watch_devices.zip(selected_watch_devices).each do |device, selected_sim|
       capture_device_screenshots(
         device.merge(udid: selected_sim[:udid], bundle_id: "#{BUNDLE_ID}.watchkitapp"),
         watch_app,
@@ -397,7 +386,7 @@ platform :ios do
     )
   end
 
-  desc "Capture screenshots, attach the latest TestFlight build, and submit for review"
+  desc "Submit the latest TestFlight build for App Store review"
   lane :release do |options|
     notes = options[:notes]
     if notes.nil? || notes.strip.empty?
@@ -407,14 +396,12 @@ platform :ios do
     selected_build_number = options[:build_number]&.to_s
     selected_build_number = nil if selected_build_number&.strip&.empty?
 
-    run_screenshots = options[:screenshots].to_s.downcase != "false"
-    screenshots if run_screenshots
     upload_to_app_store(
       app_version: current_marketing_version,
       build_number: selected_build_number,
       skip_binary_upload: true,
       skip_metadata: false,
-      skip_screenshots: !run_screenshots,
+      skip_screenshots: true,
       overwrite_screenshots: true,
       release_notes: { "en-US" => notes },
       submit_for_review: true,
@@ -428,9 +415,51 @@ platform :ios do
       run_precheck_before_submit: false
     )
   end
+
+  desc "Full pipeline (iOS): bump_version, beta, screenshots, upload_screenshots, release. Pass notes:'...'"
+  lane :full_release do |options|
+    bump_version(bump: options[:bump] || "patch")
+    beta(build_number: options[:build_number])
+    screenshots(locales: options[:locales], devices: options[:devices])
+    upload_screenshots
+    release(notes: options[:notes], build_number: options[:build_number])
+  end
 end
 
 platform :mac do
+  desc "Upload staged macOS screenshots to App Store Connect"
+  lane :upload_screenshots do
+    source_root = File.expand_path("screenshots", __dir__)
+    staged_root = Dir.mktmpdir("mac_upload_screenshots")
+    copied_count = 0
+    Dir.glob(File.join(source_root, "*")).sort.each do |locale_dir|
+      next unless File.directory?(locale_dir)
+      locale = File.basename(locale_dir)
+      mac_pngs = Dir.glob(File.join(locale_dir, "Mac-*.png")).sort
+      next if mac_pngs.empty?
+
+      staged_locale_dir = File.join(staged_root, locale)
+      FileUtils.mkdir_p(staged_locale_dir)
+      mac_pngs.each do |src|
+        FileUtils.cp(src, File.join(staged_locale_dir, File.basename(src)))
+        copied_count += 1
+      end
+    end
+    UI.user_error!("No macOS screenshots found. Expected files like 'Mac-*.png' under fastlane/screenshots/<locale>/") if copied_count.zero?
+
+    upload_to_app_store(
+      platform: "osx",
+      app_version: current_marketing_version,
+      skip_binary_upload: true,
+      skip_metadata: true,
+      skip_screenshots: false,
+      overwrite_screenshots: true,
+      screenshots_path: staged_root,
+      force: true,
+      run_precheck_before_submit: false
+    )
+  end
+
   desc "Build a signed macOS .pkg and upload it to TestFlight"
   lane :beta do |options|
     requested_build_number = options[:build_number]&.to_i
@@ -496,33 +525,14 @@ platform :mac do
     selected_build_number = options[:build_number]&.to_s
     selected_build_number = nil if selected_build_number&.strip&.empty?
 
-    source_root = File.expand_path("screenshots", __dir__)
-    staged_root = Dir.mktmpdir("mac_release_screenshots")
-    copied_count = 0
-    Dir.glob(File.join(source_root, "*")).sort.each do |locale_dir|
-      next unless File.directory?(locale_dir)
-      locale = File.basename(locale_dir)
-      mac_pngs = Dir.glob(File.join(locale_dir, "Mac-*.png")).sort
-      next if mac_pngs.empty?
-
-      staged_locale_dir = File.join(staged_root, locale)
-      FileUtils.mkdir_p(staged_locale_dir)
-      mac_pngs.each do |src|
-        FileUtils.cp(src, File.join(staged_locale_dir, File.basename(src)))
-        copied_count += 1
-      end
-    end
-    UI.user_error!("No macOS screenshots found. Expected files like 'Mac-*.png' under fastlane/screenshots/<locale>/") if copied_count.zero?
-
     upload_to_app_store(
       platform: "osx",
       app_version: current_marketing_version,
       build_number: selected_build_number,
       skip_binary_upload: true,
       skip_metadata: false,
-      skip_screenshots: false,
+      skip_screenshots: true,
       overwrite_screenshots: true,
-      screenshots_path: staged_root,
       release_notes: { "en-US" => notes },
       submit_for_review: true,
       automatic_release: true,
@@ -534,5 +544,13 @@ platform :mac do
       force: true,
       run_precheck_before_submit: false
     )
+  end
+
+  desc "Full pipeline (macOS): bump_version, beta, upload_screenshots, release. Pass notes:'...'"
+  lane :full_release do |options|
+    bump_version(bump: options[:bump] || "patch")
+    beta(build_number: options[:build_number])
+    upload_screenshots
+    release(notes: options[:notes], build_number: options[:build_number])
   end
 end
