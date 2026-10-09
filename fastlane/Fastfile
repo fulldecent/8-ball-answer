@@ -72,6 +72,10 @@ def xcodeproj_path
   File.join(repo_root, XCODEPROJ)
 end
 
+def pbxproj_path
+  File.join(xcodeproj_path, "project.pbxproj")
+end
+
 def shell!(*args)
   sh(args.map { |arg| Shellwords.escape(arg.to_s) }.join(" "))
 end
@@ -99,13 +103,14 @@ def set_marketing_version!(new_version)
 
   project.save
   # xcodeproj rewrites the project and drops comments. Release Please finds the
-  # version by the marker on this line.
-  text = File.read(xcodeproj_path)
+  # version by the marker on this line. The project path is the .xcodeproj
+  # directory; the text lives in project.pbxproj.
+  text = File.read(pbxproj_path)
   marked = text.gsub(
     /MARKETING_VERSION = #{Regexp.escape(new_version)};(?! \/\* x-release-please-version \*\/)/,
     "MARKETING_VERSION = #{new_version}; /* x-release-please-version */"
   )
-  File.write(xcodeproj_path, marked) if marked != text
+  File.write(pbxproj_path, marked) if marked != text
 end
 
 def apply_version_file!
