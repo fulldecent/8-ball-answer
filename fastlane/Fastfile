@@ -186,6 +186,9 @@ def archive_store_app!(destination:, profile_name:, output_directory:, output_na
     output_directory: output_directory,
     output_name: output_name,
     codesigning_identity: "Apple Distribution",
+    # gym otherwise replaces the mapping with the last sigh profile, which is
+    # the other platform.
+    skip_profile_detection: true,
     xcargs: [
       "CODE_SIGN_STYLE=Manual",
       "DEVELOPMENT_TEAM=#{TEAM_ID}",
