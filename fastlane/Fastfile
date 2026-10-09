@@ -197,7 +197,7 @@ def install_profile!(platform)
   name
 end
 
-def archive_store_app!(destination:, profile_name:, output_directory:, output_name:, installer_cert_name: nil)
+def archive_store_app!(destination:, profile_name:, output_directory:, output_name:, installer_cert_name: nil, sdk: nil)
   # build_app writes every sigh profile onto this bundle id. The macOS profile
   # is fetched second, so it was replacing the iOS one at export.
   Actions.lane_context[SharedValues::SIGH_PROFILE_PATH] = nil
@@ -231,6 +231,9 @@ def archive_store_app!(destination:, profile_name:, output_directory:, output_na
     }
   }
   options[:installer_cert_name] = installer_cert_name if installer_cert_name
+  # A multiplatform project is packaged as a pkg only when the sdk is macosx.
+  # Otherwise gym looks for an ipa and reports "IPA invalid".
+  options[:sdk] = sdk if sdk
   build_app(options)
 end
 
@@ -532,8 +535,9 @@ lane :ship_testflight do
     destination: "generic/platform=macOS",
     profile_name: mac_profile,
     output_directory: "build/macos",
-    output_name: "8 Ball.pkg",
-    installer_cert_name: INSTALLER_CERT_NAME
+    output_name: "8 Ball",
+    installer_cert_name: INSTALLER_CERT_NAME,
+    sdk: "macosx"
   )
   pkg = Dir.glob(File.join(repo_root, "build", "macos", "*.pkg")).first
   UI.user_error!("macOS pkg was not exported") unless pkg
