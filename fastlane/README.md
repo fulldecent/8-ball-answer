@@ -13,135 +13,29 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
-### bump_version
+### ship_testflight
 
 ```sh
-[bundle exec] fastlane bump_version
+[bundle exec] fastlane ship_testflight
 ```
 
-Bump the marketing version. Pass bump:patch (default), bump:minor, or bump:major
+Upload this commit to TestFlight for iOS and macOS and distribute it to the internal group. The marketing version comes from VERSION. The build number is not committed.
 
-### bump_build
+### generate_screenshots
 
 ```sh
-[bundle exec] fastlane bump_build
+[bundle exec] fastlane generate_screenshots
 ```
 
-Bump only the build number (used before each beta upload)
+Generate iPhone, iPad, and Mac screenshots for every language in answers-by-locale.json. Files are written under fastlane/screenshots and are not committed.
 
-----
-
-## iOS
-
-### ios screenshots
+### submit_app_store
 
 ```sh
-[bundle exec] fastlane ios screenshots
+[bundle exec] fastlane submit_app_store
 ```
 
-Capture App Store screenshots for iPhone, iPad, and Apple Watch
-
-Pass `locales:en-US` and `devices:"iPhone 17 Pro Max,Apple Watch Ultra 3 (49mm)"` to filter.
-
-### ios upload_screenshots
-
-```sh
-[bundle exec] fastlane ios upload_screenshots
-```
-
-Upload screenshots to App Store Connect
-
-### ios screenshots_and_upload
-
-```sh
-[bundle exec] fastlane ios screenshots_and_upload
-```
-
-Generate screenshots and upload them to App Store Connect
-
-### ios beta
-
-```sh
-[bundle exec] fastlane ios beta
-```
-
-Build a signed release .ipa and upload it to TestFlight (uses altool)
-
-### ios beta_pilot
-
-```sh
-[bundle exec] fastlane ios beta_pilot
-```
-
-Legacy iOS TestFlight upload via fastlane-pilot. Currently fails with stale 'previousBundleVersion' errors; kept as a fallback while Apple's ContentDelivery service is misbehaving.
-
-### ios beta_altool
-
-```sh
-[bundle exec] fastlane ios beta_altool
-```
-
-Same as :beta but uploads via `xcrun altool` directly. Use this if `upload_to_testflight` errors with a stale previousBundleVersion mismatch.
-
-### ios build_release
-
-```sh
-[bundle exec] fastlane ios build_release
-```
-
-Build the signed release .ipa without uploading
-
-### ios release
-
-```sh
-[bundle exec] fastlane ios release
-```
-
-Submit the latest TestFlight build for App Store review
-
-----
-
-## Mac
-
-### mac beta
-
-```sh
-[bundle exec] fastlane mac beta
-```
-
-Build a signed macOS .pkg and upload it to TestFlight
-
-### mac upload_screenshots
-
-```sh
-[bundle exec] fastlane mac upload_screenshots
-```
-
-Upload staged macOS screenshots to App Store Connect
-
-### mac release
-
-```sh
-[bundle exec] fastlane mac release
-```
-
-Submit the latest macOS TestFlight build for App Store review
-
-### ios full_release
-
-```sh
-[bundle exec] fastlane ios full_release
-```
-
-Full pipeline (iOS): bump_version, beta, screenshots, upload_screenshots, release. Pass notes:'...'
-
-### mac full_release
-
-```sh
-[bundle exec] fastlane mac full_release
-```
-
-Full pipeline (macOS): bump_version, beta, upload_screenshots, release. Pass notes:'...'
+Submit the TestFlight build to App Store review for iOS and macOS. Pass build_number:. Screenshots must already be under fastlane/screenshots. What's New is the newest CHANGELOG.md section.
 
 ----
 
