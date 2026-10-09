@@ -54,6 +54,20 @@ xcodebuild test \
 
 ## Releasing a new version
 
+Merging the release pull request publishes that version to the App Store.
+
+Commit messages on `main` use [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/). `fix:` bumps the patch version, `feat:` bumps the minor version, and `BREAKING CHANGE:` bumps the major version. [Release Please](https://github.com/googleapis/release-please) opens a pull request that updates [VERSION](VERSION), the `MARKETING_VERSION` lines marked `x-release-please-version`, and `CHANGELOG.md`. Merging that pull request runs [.github/workflows/release.yml](.github/workflows/release.yml). The workflow tests the app, uploads an iOS build, submits it for review with automatic release, and tags `v<version>`.
+
+The workflow needs the repository secrets and the Apple Developer Program agreement described at the top of [.github/workflows/release.yml](.github/workflows/release.yml). macOS still ships with the local `mac` lanes below. The App Store job publishes the iOS app.
+
+The same upload can be run locally after `bundle install` and `fastlane/api_key.json` exist:
+
+```sh
+bundle exec fastlane ios publish_app_store
+```
+
+### Local fastlane lanes
+
 The release process uses [fastlane](https://fastlane.tools).
 
 One-time setup:
@@ -142,6 +156,6 @@ Or run individual stages:
 ## References
 
 1. This project is built based on [best practices documented in Swift 6 Module Template](https://github.com/fulldecent/swift6-module-template), release 16.5.0. Continuous integration follows that release's macOS job: the GitHub-hosted `xcode-27` runner and `actions/checkout@v7`. The template runs `xcrun swift test` for a Swift package. This repository is an Xcode app, so [.github/workflows/ci.yml](.github/workflows/ci.yml) runs `xcodebuild test` on the iPhone 17 simulator for iOS 27.0.
-2. Releases stay on fastlane. The template's [release workflow](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/release.yml) attests a Linux static library. There is no package to publish that way, and the version that ships is `MARKETING_VERSION`.
+2. Releases follow the template's [release workflow](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/release.yml), release 16.5.0. That workflow attests a Linux static library. This repository publishes the iOS app with `bundle exec fastlane ios publish_app_store` after the release pull request merges. The version file is [VERSION](VERSION).
 3. Swift ignore rules follow the template's [.gitignore](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.gitignore), which inlines [Swift.gitignore](https://github.com/github/gitignore/blob/main/Swift.gitignore). `fastlane/api_key.json`, `*.p8`, and `vendor/bundle/` stay ignored because those files are secrets or a local Ruby install.
 4. The license is MIT. The template says to consider which license applies. This repository had no license file. Copyright starts at the first commit, 2015.

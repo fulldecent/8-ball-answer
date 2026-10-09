@@ -358,7 +358,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.5.1;
+				MARKETING_VERSION = 1.5.1; /* x-release-please-version */
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=watch*]" = "net.phor.--Ball.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -414,7 +414,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.5.1;
+				MARKETING_VERSION = 1.5.1; /* x-release-please-version */
 				PRODUCT_BUNDLE_IDENTIFIER = "net.phor.--Ball";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=watch*]" = "net.phor.--Ball.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";

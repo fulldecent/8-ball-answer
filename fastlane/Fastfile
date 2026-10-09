@@ -45,6 +45,97 @@ def set_marketing_version!(new_version)
   end
 
   project.save
+  # xcodeproj rewrites the project and drops comments. Release Please finds the
+  # version by the marker on this line.
+  text = File.read(xcodeproj_path)
+  marked = text.gsub(
+    /MARKETING_VERSION = #{Regexp.escape(new_version)};(?! \/\* x-release-please-version \*\/)/,
+    "MARKETING_VERSION = #{new_version}; /* x-release-please-version */"
+  )
+  File.write(xcodeproj_path, marked) if marked != text
+end
+
+def apply_version_file!
+  path = File.expand_path("../VERSION", __dir__)
+  UI.user_error!("VERSION is missing") unless File.exist?(path)
+  version = File.read(path).strip.split(/\s+/).first
+  UI.user_error!("VERSION #{version.inspect} is not a major.minor.patch version") unless version&.match?(/\A\d+\.\d+\.\d+\z/)
+  set_marketing_version!(version)
+  version
+end
+
+def changelog_notes
+  path = File.expand_path("../CHANGELOG.md", __dir__)
+  return "" unless File.exist?(path)
+  body = File.read(path).sub(/\A# [^\n]*\n+/, "")
+  section = body.split(/^## /)[1]
+  return "" unless section
+  section.sub(/\A[^\n]*\n+/, "").strip
+end
+
+def next_remote_build_number!
+  latest = latest_testflight_build_number(
+    api_key: Actions.lane_context[SharedValues::APP_STORE_CONNECT_API_KEY],
+    app_identifier: BUNDLE_ID,
+    initial_build_number: 0
+  )
+  build_number = [latest.to_i, current_build_number].max + 1
+  bump_build_number!(build_number)
+  build_number
+end
+
+def install_app_store_profile!
+  get_provisioning_profile(
+    app_identifier: BUNDLE_ID,
+    platform: "ios",
+    development: false,
+    adhoc: false,
+    skip_install: false
+  )
+  name = Actions.lane_context[SharedValues::SIGH_NAME]
+  UI.user_error!("No App Store provisioning profile name was returned") if name.to_s.strip.empty?
+  name
+end
+
+def download_live_screenshots!
+  require "deliver/download_screenshots"
+  app = Spaceship::ConnectAPI::App.find(BUNDLE_ID)
+  UI.user_error!("App #{BUNDLE_ID} was not found in App Store Connect") unless app
+  Deliver.cache[:app] = app
+  folder = File.expand_path("screenshots", __dir__)
+  FileUtils.rm_rf(folder)
+  Deliver::DownloadScreenshots.download(
+    { platform: "ios", use_live_version: true },
+    folder
+  )
+  pngs = Dir.glob(File.join(folder, "**", "*.png"))
+  UI.user_error!("The live iOS version has no screenshots to copy onto the new version") if pngs.empty?
+  UI.message("Downloaded #{pngs.length} screenshots from the live version")
+end
+
+def wait_for_processed_build!(version:, build_number:)
+  app = Spaceship::ConnectAPI::App.find(BUNDLE_ID)
+  UI.user_error!("App #{BUNDLE_ID} was not found in App Store Connect") unless app
+  deadline = Time.now + (40 * 60)
+  loop do
+    UI.user_error!("Timed out waiting for build #{build_number} to finish processing") if Time.now > deadline
+    build = Spaceship::ConnectAPI::Build.all(
+      app_id: app.id,
+      version: version,
+      build_number: build_number.to_s,
+      platform: "IOS"
+    ).first
+    state = build&.processing_state
+    UI.message("Build #{version} (#{build_number}) processing state: #{state || 'not uploaded yet'}")
+    return if state == Spaceship::ConnectAPI::Build::ProcessingState::VALID
+    if [
+      Spaceship::ConnectAPI::Build::ProcessingState::FAILED,
+      Spaceship::ConnectAPI::Build::ProcessingState::INVALID
+    ].include?(state)
+      UI.user_error!("Build processing finished as #{state}")
+    end
+    sleep(30)
+  end
 end
 
 def current_build_number
@@ -423,6 +514,74 @@ platform :ios do
     screenshots(locales: options[:locales], devices: options[:devices])
     upload_screenshots
     release(notes: options[:notes], build_number: options[:build_number])
+  end
+
+  desc "Upload this commit to the App Store and submit it. MARKETING_VERSION comes from VERSION. Pass notes: to override CHANGELOG.md"
+  lane :publish_app_store do |options|
+    version = apply_version_file!
+    notes = options[:notes].to_s.strip
+    notes = changelog_notes if notes.empty?
+    UI.user_error!("Release notes are required. Add a section to CHANGELOG.md or pass notes:") if notes.empty?
+    notes = notes[0, 3500]
+
+    # Copy the live version's screenshots before deliver creates the new version.
+    download_live_screenshots!
+
+    build_number = next_remote_build_number!
+    profile_name = install_app_store_profile!
+    UI.message("Publishing #{version} (#{build_number}) with profile #{profile_name}")
+
+    build_app(
+      project: XCODEPROJ,
+      scheme: SCHEME,
+      configuration: "Release",
+      export_method: "app-store",
+      destination: "generic/platform=iOS",
+      clean: true,
+      output_directory: "build",
+      output_name: "8 Ball.ipa",
+      codesigning_identity: "Apple Distribution",
+      xcargs: [
+        "CODE_SIGN_STYLE=Manual",
+        "DEVELOPMENT_TEAM=8Q693ZG5RN",
+        "CODE_SIGN_IDENTITY=#{Shellwords.escape('Apple Distribution')}",
+        "PROVISIONING_PROFILE_SPECIFIER=#{Shellwords.escape(profile_name)}"
+      ].join(" "),
+      export_options: {
+        signingStyle: "manual",
+        teamID: "8Q693ZG5RN",
+        provisioningProfiles: {
+          BUNDLE_ID => profile_name
+        }
+      }
+    )
+
+    ipa = File.expand_path("../build/8 Ball.ipa", __dir__)
+    # upload_to_testflight returns a stale previousBundleVersion for this app.
+    # altool upload is the path that succeeds. Submission waits until processing
+    # finishes, then deliver attaches this build.
+    altool_upload!(ipa, type: "ios")
+    wait_for_processed_build!(version: version, build_number: build_number)
+
+    upload_to_app_store(
+      app_version: version,
+      build_number: build_number.to_s,
+      skip_binary_upload: true,
+      skip_metadata: false,
+      skip_screenshots: false,
+      overwrite_screenshots: true,
+      screenshots_path: File.expand_path("screenshots", __dir__),
+      release_notes: { "en-US" => notes },
+      submit_for_review: true,
+      automatic_release: true,
+      submission_information: {
+        add_id_info_uses_idfa: false,
+        export_compliance_uses_encryption: false,
+        content_rights_contains_third_party_content: false
+      },
+      force: true,
+      run_precheck_before_submit: false
+    )
   end
 end
 
