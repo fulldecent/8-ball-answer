@@ -557,6 +557,36 @@ lane :generate_screenshots do
   UI.success("Screenshots saved under fastlane/screenshots")
 end
 
+desc "Upload generated screenshots for the TestFlight version on iOS and Mac. Does not submit for review."
+lane :upload_screenshots do
+  version = open_train_version!(apply_version_file!)
+  notes = File.exist?(File.join(repo_root, "CHANGELOG.md")) ? changelog_notes : "Maintenance update."
+  check_answer_locales!
+  ios_screenshots = File.expand_path("screenshots/ios", __dir__)
+  mac_screenshots = File.expand_path("screenshots/macos", __dir__)
+  UI.user_error!("iOS screenshots are missing") if Dir.glob(File.join(ios_screenshots, "**", "*.png")).empty?
+  UI.user_error!("macOS screenshots are missing") if Dir.glob(File.join(mac_screenshots, "**", "*.png")).empty?
+  prepare_metadata!(File.expand_path("metadata", __dir__), notes)
+  prepare_metadata!(File.expand_path("metadata-macos", __dir__), notes)
+  [ios_screenshots, mac_screenshots].each_with_index do |screenshots_path, index|
+    upload_to_app_store(
+      platform: index.zero? ? "ios" : "osx",
+      app_version: version,
+      metadata_path: File.expand_path(index.zero? ? "metadata" : "metadata-macos", __dir__),
+      screenshots_path: screenshots_path,
+      skip_binary_upload: true,
+      skip_metadata: false,
+      skip_screenshots: false,
+      overwrite_screenshots: true,
+      submit_for_review: false,
+      automatic_release: false,
+      force: true,
+      run_precheck_before_submit: false
+    )
+  end
+  UI.success("Uploaded screenshots for #{version}")
+end
+
 desc "Submit the TestFlight build to App Store review for iOS and macOS. Pass build_number:. Screenshots must already be under fastlane/screenshots. What's New is the newest CHANGELOG.md section."
 lane :submit_app_store do |options|
   version = apply_version_file!

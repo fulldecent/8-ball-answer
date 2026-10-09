@@ -88,8 +88,11 @@ The same lanes can be run locally after `bundle install` with Ruby from `.ruby-v
 ```sh
 bundle exec fastlane ship_testflight
 bundle exec fastlane generate_screenshots
+bundle exec fastlane upload_screenshots
 bundle exec fastlane submit_app_store build_number:123
 ```
+
+`gh workflow run release.yml --repo fulldecent/8-ball-answer --ref main -f screenshots=true` generates the screenshots, uploads them for the TestFlight version, and uploads a new iOS and Mac build. It does not submit for review.
 
 ## References
 
