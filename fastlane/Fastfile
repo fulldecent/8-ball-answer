@@ -176,6 +176,11 @@ def install_profile!(platform)
 end
 
 def archive_store_app!(destination:, profile_name:, output_directory:, output_name:)
+  # build_app writes every sigh profile onto this bundle id. The macOS profile
+  # is fetched second, so it was replacing the iOS one at export.
+  Actions.lane_context[SharedValues::SIGH_PROFILE_PATH] = nil
+  Actions.lane_context[SharedValues::SIGH_PROFILE_PATHS] = nil
+  profile_name = profile_name.dup
   build_app(
     project: XCODEPROJ,
     scheme: SCHEME,
