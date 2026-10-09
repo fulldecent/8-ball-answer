@@ -15,6 +15,7 @@ name: CI
 # swift format is the formatter the template's soundness workflow runs.
 
 on:
+  workflow_call:
   push:
   pull_request:
 

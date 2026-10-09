@@ -52,96 +52,46 @@ xcodebuild test \
 
 `CODE_SIGNING_ALLOWED=NO` is for a machine that does not have the device provisioning profile. A local run signed with your own team can omit it.
 
+## Setup
+
+This is the maintainer setup for [.github/workflows/release.yml](.github/workflows/release.yml).
+
+1. GitHub repo > Settings > General > Releases > Enable release immutability.
+2. GitHub repo > Settings > Actions > General > Workflow permissions: Read and write permissions. Check "Allow GitHub Actions to create and approve pull requests".
+3. Sign the Apple Developer Program agreement. App Store Connect API calls fail until it is in effect.
+4. Repository secrets:
+
+   | Secret | Value |
+   | --- | --- |
+   | `APP_STORE_CONNECT_KEY_ID` | App Store Connect API key id |
+   | `APP_STORE_CONNECT_ISSUER_ID` | Issuer id |
+   | `APP_STORE_CONNECT_KEY` | Contents of the AuthKey `.p8` file |
+   | `APP_STORE_DISTRIBUTION_P12` | Base64 of an Apple Distribution PKCS12 |
+   | `APP_STORE_DISTRIBUTION_P12_PASSWORD` | Password for that PKCS12 |
+
+   The workflow creates the provisioning profiles at build time. Profiles are not stored. The API key needs App Manager access. Replace a secret with `gh secret set <NAME> --repo fulldecent/8-ball-answer`. For the certificate, `base64 < distribution.p12` is the value of `APP_STORE_DISTRIBUTION_P12`. `fastlane cert` can create a new Apple Distribution certificate when the private key on this machine cannot be exported.
+
 ## Releasing a new version
 
-The release process uses [fastlane](https://fastlane.tools).
+Every push to `main` tests the app, then uploads an iOS build and a macOS build to TestFlight and adds both to the internal group App Store Connect Users. The marketing version comes from [VERSION](VERSION). The build number is one higher than the newest TestFlight build on either platform and is not committed.
 
-One-time setup:
+Commit messages on `main` use [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/). `fix:` bumps the patch version, `feat:` bumps the minor version, and `BREAKING CHANGE:` bumps the major version. `ci:` and `chore:` do not. [Release Please](https://github.com/googleapis/release-please) opens a pull request that updates [VERSION](VERSION), the `MARKETING_VERSION` lines marked `x-release-please-version`, and `CHANGELOG.md`. Merging that pull request runs the screenshot job and then submits the iOS and macOS versions for review with automatic release. The GitHub tag `v<version>` is created after that submission succeeds.
 
-1. Install Ruby via rbenv (macOS system Ruby is too old for fastlane):
+Store text lives in [fastlane/metadata](fastlane/metadata) for iOS and [fastlane/metadata-macos](fastlane/metadata-macos) for macOS. The release uploads those files. A language that has answers in [answers-by-locale.json](answers-by-locale.json) and no metadata folder is uploaded with the `en-US` text so its screenshots have a listing. What's New is the newest section of `CHANGELOG.md`. Screenshots are generated for iPhone, iPad, and Mac during that release and are not committed. watchOS and visionOS are in the Xcode target and are not separate App Store listings.
 
-   ```sh
-   brew install rbenv ruby-build
-   rbenv init # follow the printed shell setup instructions, then restart your shell
-   rbenv install   # installs the version from .ruby-version
-   bundle install
-   ```
+`fastlane/Fastfile` strips `/opt/homebrew` and `/usr/local` from `PATH` before `xcodebuild -exportArchive`. Xcode's IPA export calls `rsync -E`, and Homebrew's `rsync` rejects that flag ("Copy failed").
 
-2. Create `fastlane/api_key.json` with your App Store Connect API key details:
-
-   ```json
-   {
-     "key_id": "ABCD123456",
-     "issuer_id": "00000000-0000-0000-0000-000000000000",
-     "key_filepath": "/absolute/path/to/AuthKey_ABCD123456.p8"
-   }
-   ```
-
-The pipeline has five stages.
-
-```mermaid
-flowchart LR
-  bump_version --> b["beta (TestFlight)"] --> screenshots --> upload_screenshots  --> r["release (App Store)"]
-```
-
-Execute the end-to-end flow with the combined command:
+The same lanes can be run locally after `bundle install` with Ruby from `.ruby-version` and a gitignored `fastlane/api_key.json` (`key_id`, `issuer_id`, `key_filepath`). The distribution certificate has to be in the keychain.
 
 ```sh
-bundle exec fastlane ios full_release notes:"Maintenance update"
-bundle exec fastlane mac full_release notes:"Maintenance update"
+bundle exec fastlane ship_testflight
+bundle exec fastlane generate_screenshots
+bundle exec fastlane submit_app_store build_number:123
 ```
-
-Or run individual stages:
-
-1. Bump the marketing version (`MARKETING_VERSION`) and build number:
-
-   ```sh
-   bundle exec fastlane bump_version           # patch (default): 1.5 -> 1.5.1
-   bundle exec fastlane bump_version bump:minor
-   bundle exec fastlane bump_version bump:major
-   ```
-
-2. Build, sign, and ship to TestFlight for both iOS and macOS. Each `beta` lane bumps the build number, archives, exports, and uploads via `xcrun altool`:
-
-   ```sh
-   bundle exec fastlane ios beta
-   bundle exec fastlane mac beta
-   ```
-
-   `ios beta` produces `build/8 Ball.ipa`, `mac beta` produces `build/8 Ball.pkg`. Both upload to the same App Store Connect record so the iOS build appears under the iOS TestFlight tab and the macOS build under the macOS TestFlight tab.
-
-   :information_source: The iOS and macOS `beta` lanes upload via `xcrun altool` directly because fastlane's `upload_to_testflight` action currently fails for this app with a stale `previousBundleVersion` mismatch from Apple's ContentDelivery service. The legacy `upload_to_testflight` route is kept as `ios beta_pilot` so it can be re-enabled once Apple resolves the upstream issue.
-
-3. Capture screenshots when needed. The iOS lane supports quick testing of one locale or one device:
-
-   ```sh
-   bundle exec fastlane ios screenshots
-   bundle exec fastlane ios screenshots locales:en-US devices:"iPhone 17 Pro Max"
-   ```
-
-   This writes screenshots to `fastlane/screenshots/`.
-
-4. Upload screenshots separately from submission:
-
-   ```sh
-   bundle exec fastlane ios upload_screenshots
-   bundle exec fastlane mac upload_screenshots
-   ```
-
-5. Submit to the App Store. The `release` lanes are submit-only and do not capture or upload screenshots:
-
-   ```sh
-   bundle exec fastlane ios release notes:"Maintenance update"
-   bundle exec fastlane mac release notes:"Maintenance update"
-   ```
-
-:information_source: If App Store Connect rejects a beta upload because the build number is behind the remote value, set the project build number once to remote highest + 1, commit that change, and then resume normal local increments.
-
-:information_source: Our `before_all` hook in `fastlane/Fastfile` strips `/opt/homebrew` and `/usr/local` from `PATH` before `xcodebuild -exportArchive` runs. This is a workaround for a bug in Xcode 26's IPA packaging step ("Copy failed") because `/usr/bin/rsync` and Homebrew's `rsync` disagree on the `-E` flag.
 
 ## References
 
 1. This project is built based on [best practices documented in Swift 6 Module Template](https://github.com/fulldecent/swift6-module-template), release 16.5.0. Continuous integration follows that release's macOS job: the GitHub-hosted `xcode-27` runner and `actions/checkout@v7`. The template runs `xcrun swift test` for a Swift package. This repository is an Xcode app, so [.github/workflows/ci.yml](.github/workflows/ci.yml) runs `xcodebuild test` on the iPhone 17 simulator for iOS 27.0.
-2. Releases stay on fastlane. The template's [release workflow](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/release.yml) attests a Linux static library. There is no package to publish that way, and the version that ships is `MARKETING_VERSION`.
+2. Releases follow the template's [release workflow](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/release.yml), release 16.5.0. That workflow attests a Linux static library. This repository uploads the iOS and macOS apps to TestFlight on every push to `main`, and submits both for App Store review when the release pull request merges. The version file is [VERSION](VERSION).
 3. Swift ignore rules follow the template's [.gitignore](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.gitignore), which inlines [Swift.gitignore](https://github.com/github/gitignore/blob/main/Swift.gitignore). `fastlane/api_key.json`, `*.p8`, and `vendor/bundle/` stay ignored because those files are secrets or a local Ruby install.
 4. The license is MIT. The template says to consider which license applies. This repository had no license file. Copyright starts at the first commit, 2015.

@@ -1,0 +1,8 @@
+8 Ball Answers gives quick, randomized responses to any question with a single click.
+
+Use it when you need a playful nudge for everyday decisions. The app is intentionally simple, fast, and distraction-free.
+
+Features:
+- Instant random answers
+- Clean, readable interface
+- Available on iPhone, iPad, Apple Watch, and Mac

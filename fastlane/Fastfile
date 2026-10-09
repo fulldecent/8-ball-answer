@@ -2,25 +2,78 @@ default_platform(:ios)
 
 require "json"
 require "shellwords"
-require "tmpdir"
 
 XCODEPROJ = "8 Ball.xcodeproj"
 SCHEME = "8 Ball"
 APP_TARGET = "8 Ball"
 BUNDLE_ID = "net.phor.--Ball"
 APP_STORE_CONNECT_APP_ID = "995732766"
+TEAM_ID = "8Q693ZG5RN"
+INTERNAL_BETA_GROUP = "App Store Connect Users"
+RELEASE_NOTES_LIMIT = 3500
 
+# answers-by-locale.json key => [App Store locale, AppleLanguages, AppleLocale].
+# App Store codes are fastlane's ALL_LANGUAGES. Norwegian Bokmål is "no" there.
+ANSWER_LOCALES = {
+  "ar" => ["ar-SA", "ar", "ar_SA"],
+  "bn" => ["bn-BD", "bn", "bn_BD"],
+  "cs" => ["cs", "cs", "cs_CZ"],
+  "da" => ["da", "da", "da_DK"],
+  "de" => ["de-DE", "de", "de_DE"],
+  "el" => ["el", "el", "el_GR"],
+  "en" => ["en-US", "en", "en_US"],
+  "es" => ["es-ES", "es", "es_ES"],
+  "fr" => ["fr-FR", "fr", "fr_FR"],
+  "he" => ["he", "he", "he_IL"],
+  "hi" => ["hi", "hi", "hi_IN"],
+  "hr" => ["hr", "hr", "hr_HR"],
+  "hu" => ["hu", "hu", "hu_HU"],
+  "id" => ["id", "id", "id_ID"],
+  "it" => ["it", "it", "it_IT"],
+  "ja" => ["ja", "ja", "ja_JP"],
+  "ko" => ["ko", "ko", "ko_KR"],
+  "ms" => ["ms", "ms", "ms_MY"],
+  "nb" => ["no", "nb", "nb_NO"],
+  "nl" => ["nl-NL", "nl", "nl_NL"],
+  "pl" => ["pl", "pl", "pl_PL"],
+  "pt" => ["pt-BR", "pt", "pt_BR"],
+  "ro" => ["ro", "ro", "ro_RO"],
+  "ru" => ["ru", "ru", "ru_RU"],
+  "sk" => ["sk", "sk", "sk_SK"],
+  "sv" => ["sv", "sv", "sv_SE"],
+  "ta" => ["ta-IN", "ta", "ta_IN"],
+  "te" => ["te-IN", "te", "te_IN"],
+  "th" => ["th", "th", "th_TH"],
+  "tr" => ["tr", "tr", "tr_TR"],
+  "uk" => ["uk", "uk", "uk_UA"],
+  "vi" => ["vi", "vi", "vi_VN"],
+  "zh-Hans" => ["zh-Hans", "zh-Hans", "zh_Hans"],
+  "zh-Hant" => ["zh-Hant", "zh-Hant", "zh_Hant"]
+}.freeze
+
+# Prefer the newest simulator whose pixels match an App Store screenshot size.
+# fastlane deliver accepts 1320×2868 for the 6.9-inch iPhone and 2064×2752 for the 13-inch iPad.
 IOS_DEVICES = [
-  { name: "iPhone 17 Pro Max", label: "iphone_69" },
-  { name: "iPad Pro 13-inch (M5)", label: "ipad_pro_13" },
+  { names: ["iPhone 18 Pro Max", "iPhone 17 Pro Max"], label: "iphone_69" },
+  { names: ["iPad Pro 13-inch (M5)", "iPad Pro 13-inch (M4)"], label: "ipad_pro_13" }
 ].freeze
 
-WATCH_DEVICES = [
-  { name: "Apple Watch Ultra 3 (49mm)", label: "watch_ultra3" },
-].freeze
+SUBMISSION_INFORMATION = {
+  add_id_info_uses_idfa: false,
+  export_compliance_uses_encryption: false,
+  content_rights_contains_third_party_content: false
+}.freeze
+
+def repo_root
+  File.expand_path("..", __dir__)
+end
 
 def xcodeproj_path
-  File.expand_path(XCODEPROJ, __dir__ + "/..")
+  File.join(repo_root, XCODEPROJ)
+end
+
+def shell!(*args)
+  sh(args.map { |arg| Shellwords.escape(arg.to_s) }.join(" "))
 end
 
 def current_marketing_version
@@ -45,34 +98,108 @@ def set_marketing_version!(new_version)
   end
 
   project.save
+  # xcodeproj rewrites the project and drops comments. Release Please finds the
+  # version by the marker on this line.
+  text = File.read(xcodeproj_path)
+  marked = text.gsub(
+    /MARKETING_VERSION = #{Regexp.escape(new_version)};(?! \/\* x-release-please-version \*\/)/,
+    "MARKETING_VERSION = #{new_version}; /* x-release-please-version */"
+  )
+  File.write(xcodeproj_path, marked) if marked != text
+end
+
+def apply_version_file!
+  path = File.join(repo_root, "VERSION")
+  UI.user_error!("VERSION is missing") unless File.exist?(path)
+  version = File.read(path).strip.split(/\s+/).first
+  UI.user_error!("VERSION #{version.inspect} is not a major.minor.patch version") unless version&.match?(/\A\d+\.\d+\.\d+\z/)
+  set_marketing_version!(version)
+  version
+end
+
+def changelog_notes
+  path = File.join(repo_root, "CHANGELOG.md")
+  UI.user_error!("CHANGELOG.md is missing") unless File.exist?(path)
+  body = File.read(path).sub(/\A# [^\n]*\n+/, "")
+  section = body.split(/^## /)[1]
+  UI.user_error!("CHANGELOG.md has no release section") unless section
+  notes = section.sub(/\A[^\n]*\n+/, "").strip
+  UI.user_error!("The newest CHANGELOG.md section is empty") if notes.empty?
+  notes[0, RELEASE_NOTES_LIMIT]
 end
 
 def current_build_number
   get_build_number(xcodeproj: xcodeproj_path).to_s.to_i
 end
 
-# Simple local build number increment per apple-development skill.
-# If upload fails with 'previousBundleVersion' or 'already been used',
-# do a one-time fix: set CURRENT_PROJECT_VERSION to remote highest + 1
-# in the Xcode project, commit, then resume normal local increments.
-def next_build_number
-  current_build_number + 1
-end
-
-def bump_build_number!(build_number = nil)
-  next_build = build_number || next_build_number
+def bump_build_number!(build_number)
   increment_build_number(
     xcodeproj: xcodeproj_path,
-    build_number: next_build.to_s
+    build_number: build_number.to_s
   )
-  next_build
+  build_number
 end
 
-# Workaround: fastlane's `upload_to_testflight` routinely returns a stale
-# `previousBundleVersion` error for this app even when the API shows no such
-# build. Calling altool directly with the App Store Connect API key uploads
-# successfully. Kept as an additive route alongside `upload_to_testflight` so
-# the existing path can be removed once Apple resolves the upstream issue.
+# Build numbers are shared by the iOS and macOS uploads and must strictly increase.
+# The number is computed here and is not committed.
+def next_remote_build_number!
+  api_key = Actions.lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]
+  UI.user_error!("App Store Connect API key is not loaded") unless api_key
+  numbers = ["ios", "osx"].map do |platform|
+    latest_testflight_build_number(
+      api_key: api_key,
+      app_identifier: BUNDLE_ID,
+      platform: platform,
+      initial_build_number: 0
+    ).to_i
+  end
+  build_number = (numbers + [current_build_number]).max + 1
+  bump_build_number!(build_number)
+  build_number
+end
+
+def install_profile!(platform)
+  get_provisioning_profile(
+    app_identifier: BUNDLE_ID,
+    platform: platform,
+    development: false,
+    adhoc: false,
+    skip_install: false
+  )
+  name = Actions.lane_context[SharedValues::SIGH_NAME]
+  UI.user_error!("No #{platform} provisioning profile name was returned") if name.to_s.strip.empty?
+  name
+end
+
+def archive_store_app!(destination:, profile_name:, output_directory:, output_name:)
+  build_app(
+    project: XCODEPROJ,
+    scheme: SCHEME,
+    configuration: "Release",
+    export_method: "app-store",
+    destination: destination,
+    clean: true,
+    output_directory: output_directory,
+    output_name: output_name,
+    codesigning_identity: "Apple Distribution",
+    xcargs: [
+      "CODE_SIGN_STYLE=Manual",
+      "DEVELOPMENT_TEAM=#{TEAM_ID}",
+      "CODE_SIGN_IDENTITY=#{Shellwords.escape("Apple Distribution")}",
+      "PROVISIONING_PROFILE_SPECIFIER=#{Shellwords.escape(profile_name)}"
+    ].join(" "),
+    export_options: {
+      signingStyle: "manual",
+      teamID: TEAM_ID,
+      provisioningProfiles: {
+        BUNDLE_ID => profile_name
+      }
+    }
+  )
+end
+
+# upload_to_testflight returns a stale previousBundleVersion for this app.
+# altool is the upload that succeeds.
 def altool_upload!(binary_path, type:)
   config_path = File.expand_path("api_key.json", __dir__)
   UI.user_error!("Missing fastlane/api_key.json — needed for altool upload") unless File.exist?(config_path)
@@ -83,7 +210,6 @@ def altool_upload!(binary_path, type:)
   key_filepath = File.expand_path(config.fetch("key_filepath"))
   UI.user_error!("API key file not found at #{key_filepath}") unless File.exist?(key_filepath)
 
-  # altool looks for the .p8 in fixed locations; copy it there if needed.
   search_dirs = [
     File.expand_path("~/.appstoreconnect/private_keys"),
     File.expand_path("~/.private_keys"),
@@ -96,81 +222,231 @@ def altool_upload!(binary_path, type:)
     FileUtils.cp(key_filepath, File.join(target_dir, "AuthKey_#{key_id}.p8"))
   end
 
-  sh(
-    "xcrun altool --upload-app " \
-      "-f #{Shellwords.escape(binary_path)} " \
-      "-t #{Shellwords.escape(type)} " \
-      "--apiKey #{Shellwords.escape(key_id)} " \
-      "--apiIssuer #{Shellwords.escape(issuer_id)}"
+  shell!(
+    "xcrun", "altool", "--upload-app",
+    "-f", binary_path,
+    "-t", type,
+    "--apiKey", key_id,
+    "--apiIssuer", issuer_id
   )
 end
 
-def print_testflight_links!(platform:, version:, build_number:)
-  platform_slug = platform == :mac ? "macos" : "ios"
-  testflight_url = "https://appstoreconnect.apple.com/apps/#{APP_STORE_CONNECT_APP_ID}/testflight/#{platform_slug}"
-  activity_url = "https://appstoreconnect.apple.com/apps/#{APP_STORE_CONNECT_APP_ID}/distribution/#{platform_slug}/activity/all"
-
-  UI.success("Uploaded #{platform.upcase} build #{version} (#{build_number}). Confirm in App Store Connect:")
-  UI.success("  TestFlight builds: #{testflight_url}")
-  UI.success("  Activity / processing: #{activity_url}")
+def wait_for_processed_build!(version:, build_number:, platform:)
+  app = Spaceship::ConnectAPI::App.find(BUNDLE_ID)
+  UI.user_error!("App #{BUNDLE_ID} was not found in App Store Connect") unless app
+  deadline = Time.now + (40 * 60)
+  loop do
+    UI.user_error!("Timed out waiting for #{platform} build #{build_number} to finish processing") if Time.now > deadline
+    build = Spaceship::ConnectAPI::Build.all(
+      app_id: app.id,
+      version: version,
+      build_number: build_number.to_s,
+      platform: platform
+    ).first
+    state = build&.processing_state
+    UI.message("#{platform} build #{version} (#{build_number}) processing state: #{state || "not uploaded yet"}")
+    return build if state == Spaceship::ConnectAPI::Build::ProcessingState::VALID
+    if [
+      Spaceship::ConnectAPI::Build::ProcessingState::FAILED,
+      Spaceship::ConnectAPI::Build::ProcessingState::INVALID
+    ].include?(state)
+      UI.user_error!("#{platform} build processing finished as #{state}")
+    end
+    sleep(30)
+  end
 end
 
+def distribute_build!(version:, build_number:, platform:)
+  build = wait_for_processed_build!(version: version, build_number: build_number, platform: platform)
+  build.update(attributes: { uses_non_exempt_encryption: false })
+  app = Spaceship::ConnectAPI::App.find(BUNDLE_ID)
+  groups = Spaceship::ConnectAPI::BetaGroup.all(app_id: app.id)
+  group = groups.find { |candidate| candidate.name == INTERNAL_BETA_GROUP && candidate.is_internal_group }
+  group ||= groups.find(&:is_internal_group)
+  UI.user_error!("No internal TestFlight group named #{INTERNAL_BETA_GROUP}") unless group
+  build.add_beta_groups(beta_groups: [group])
+  UI.success("Added #{platform} build #{version} (#{build_number}) to #{group.name}")
+end
+
+def github_output!(version:, build_number:)
+  path = ENV["GITHUB_OUTPUT"]
+  return unless path && !path.empty?
+  File.open(path, "a") do |file|
+    file.puts "version=#{version}"
+    file.puts "build_number=#{build_number}"
+  end
+end
+
+def check_answer_locales!
+  path = File.join(repo_root, "answers-by-locale.json")
+  keys = JSON.parse(File.read(path)).keys
+  missing = keys - ANSWER_LOCALES.keys
+  extra = ANSWER_LOCALES.keys - keys
+  UI.user_error!("ANSWER_LOCALES is missing #{missing.join(", ")}") unless missing.empty?
+  UI.user_error!("ANSWER_LOCALES has unused #{extra.join(", ")}") unless extra.empty?
+end
 
 def latest_simulator_for(device_name, platform_name)
   raw = sh("xcrun simctl list devices available --json", log: false)
   devices_json = JSON.parse(raw).fetch("devices", {})
-
   candidates = []
 
   devices_json.each do |runtime_key, simulators|
     next unless runtime_key.include?(platform_name)
-
     version_match = runtime_key.match(/#{Regexp.escape(platform_name)}[- ]([\d\.-]+)/i)
     version = version_match ? version_match[1].tr("-", ".") : "0"
-
     simulators.each do |sim|
       next if sim["isAvailable"] == false
       next unless sim["name"] == device_name
-
       udid = sim["udid"] || sim["identifier"]
       next if udid.to_s.strip.empty?
-
-      candidates << {
-        name: device_name,
-        version: version,
-        udid: udid
-      }
+      candidates << { name: device_name, version: version, udid: udid }
     end
   end
 
-  UI.user_error!("No available #{platform_name} simulator found for '#{device_name}'") if candidates.empty?
-
+  return nil if candidates.empty?
   candidates.max_by { |candidate| Gem::Version.new(candidate[:version]) }
 end
 
-def capture_device_screenshots(device, app_path, output_dir)
-  UI.header(device[:name])
-  bundle_id = device.fetch(:bundle_id, BUNDLE_ID)
+def require_simulator(names, platform_name)
+  names.each do |name|
+    found = latest_simulator_for(name, platform_name)
+    return found.merge(name: name) if found
+  end
+  UI.user_error!("No available #{platform_name} simulator found for #{names.join(" or ")}")
+end
 
-  sh("xcrun simctl boot '#{device[:udid]}' 2>/dev/null || true")
-  sh("xcrun simctl bootstatus '#{device[:udid]}' -b")
+def launch_args(language, apple_locale, screenshot)
+  args = []
+  args << "-screenshot" if screenshot
+  args + ["-AppleLanguages", "(#{language})", "-AppleLocale", apple_locale]
+end
+
+def capture_simulator_shot!(udid, screenshot, destination, language, apple_locale)
+  sh("xcrun simctl terminate #{Shellwords.escape(udid)} #{Shellwords.escape(BUNDLE_ID)} >/dev/null 2>&1 || true")
+  shell!("xcrun", "simctl", "launch", udid, BUNDLE_ID, *launch_args(language, apple_locale, screenshot))
   sleep(2)
-  sh("xcrun simctl install '#{device[:udid]}' '#{app_path}'")
+  shell!("xcrun", "simctl", "io", udid, "screenshot", destination)
+  sh("xcrun simctl terminate #{Shellwords.escape(udid)} #{Shellwords.escape(BUNDLE_ID)} >/dev/null 2>&1 || true")
+end
 
-  sh("xcrun simctl launch '#{device[:udid]}' '#{bundle_id}'")
-  sleep(3)
-  sh("xcrun simctl io '#{device[:udid]}' screenshot '#{output_dir}/01_#{device[:label]}.png'")
-  sh("xcrun simctl terminate '#{device[:udid]}' '#{bundle_id}' 2>/dev/null || true")
+def capture_ios_screenshots!(output_root)
+  devices = IOS_DEVICES.map { |device| device.merge(require_simulator(device[:names], "iOS")) }
+  derived = File.join(repo_root, "build", "screenshot-ios")
+  shell!(
+    "xcodebuild",
+    "-project", xcodeproj_path,
+    "-scheme", SCHEME,
+    "-configuration", "Release",
+    "-destination", "platform=iOS Simulator,id=#{devices.first[:udid]}",
+    "-derivedDataPath", derived,
+    "CODE_SIGNING_ALLOWED=NO",
+    "build"
+  )
+  app = Dir.glob(File.join(derived, "Build", "Products", "*-iphonesimulator", "#{APP_TARGET}.app")).first
+  UI.user_error!("Could not find the iOS simulator app") unless app
 
-  sh("xcrun simctl launch '#{device[:udid]}' '#{bundle_id}' -screenshot")
-  sleep(3)
-  sh("xcrun simctl io '#{device[:udid]}' screenshot '#{output_dir}/02_#{device[:label]}.png'")
-  sh("xcrun simctl terminate '#{device[:udid]}' '#{bundle_id}' 2>/dev/null || true")
+  devices.each do |device|
+    sh("xcrun simctl boot #{Shellwords.escape(device[:udid])} >/dev/null 2>&1 || true")
+    shell!("xcrun", "simctl", "bootstatus", device[:udid], "-b")
+    shell!("xcrun", "simctl", "install", device[:udid], app)
+  end
 
-  sh("xcrun simctl shutdown '#{device[:udid]}'")
+  ANSWER_LOCALES.each_value do |asc, language, apple_locale|
+    directory = File.join(output_root, "ios", asc)
+    FileUtils.mkdir_p(directory)
+    devices.each do |device|
+      capture_simulator_shot!(device[:udid], false, File.join(directory, "01_#{device[:label]}.png"), language, apple_locale)
+      capture_simulator_shot!(device[:udid], true, File.join(directory, "02_#{device[:label]}.png"), language, apple_locale)
+    end
+  end
+
+  devices.each do |device|
+    sh("xcrun simctl shutdown #{Shellwords.escape(device[:udid])} >/dev/null 2>&1 || true")
+  end
+end
+
+def mac_screenshot_tool!
+  source = File.expand_path("mac_screenshot.swift", __dir__)
+  binary = File.join(repo_root, "build", "mac_screenshot")
+  FileUtils.mkdir_p(File.dirname(binary))
+  shell!("swiftc", "-O", "-o", binary, source)
+  binary
+end
+
+def capture_mac_shot!(tool, app_path, destination, language, apple_locale, screenshot)
+  sh("osascript -e 'tell application \"8 Ball\" to quit' >/dev/null 2>&1 || true")
+  sleep(1)
+  shell!("open", "-n", "-a", app_path, "--args", *launch_args(language, apple_locale, screenshot))
+  sleep(2)
+  sh("osascript -e 'tell application \"System Events\" to tell process \"8 Ball\" to set size of window 1 to {1440, 900}' >/dev/null 2>&1 || true")
+  shell!(tool, destination)
+  sh("osascript -e 'tell application \"8 Ball\" to quit' >/dev/null 2>&1 || true")
+end
+
+def capture_mac_screenshots!(output_root)
+  tool = mac_screenshot_tool!
+  derived = File.join(repo_root, "build", "screenshot-macos")
+  shell!(
+    "xcodebuild",
+    "-project", xcodeproj_path,
+    "-scheme", SCHEME,
+    "-configuration", "Release",
+    "-destination", "platform=macOS",
+    "-derivedDataPath", derived,
+    "CODE_SIGNING_ALLOWED=NO",
+    "build"
+  )
+  app = Dir.glob(File.join(derived, "Build", "Products", "Release", "#{APP_TARGET}.app")).first
+  UI.user_error!("Could not find the macOS app") unless app
+  shell!("codesign", "--force", "--deep", "--sign", "-", app)
+
+  ANSWER_LOCALES.each_value do |asc, language, apple_locale|
+    directory = File.join(output_root, "macos", asc)
+    FileUtils.mkdir_p(directory)
+    capture_mac_shot!(tool, app, File.join(directory, "01_mac.png"), language, apple_locale, false)
+    capture_mac_shot!(tool, app, File.join(directory, "02_mac.png"), language, apple_locale, true)
+  end
+end
+
+def prepare_metadata!(metadata_path, notes)
+  source = File.join(metadata_path, "en-US")
+  UI.user_error!("#{metadata_path} is missing en-US") unless File.directory?(source)
+  ANSWER_LOCALES.each_value do |asc, _, _|
+    destination = File.join(metadata_path, asc)
+    next if File.directory?(destination)
+    FileUtils.cp_r(source, destination)
+  end
+  Dir.children(metadata_path).each do |entry|
+    directory = File.join(metadata_path, entry)
+    next unless File.directory?(directory)
+    next if entry == "review_information"
+    File.write(File.join(directory, "release_notes.txt"), "#{notes}\n")
+  end
+end
+
+def submit_store!(platform:, version:, build_number:, metadata_path:, screenshots_path:)
+  upload_to_app_store(
+    platform: platform,
+    app_version: version,
+    build_number: build_number.to_s,
+    metadata_path: metadata_path,
+    screenshots_path: screenshots_path,
+    skip_binary_upload: true,
+    skip_metadata: false,
+    skip_screenshots: false,
+    overwrite_screenshots: true,
+    submit_for_review: true,
+    automatic_release: true,
+    submission_information: SUBMISSION_INFORMATION,
+    force: true,
+    run_precheck_before_submit: false,
+    precheck_include_in_app_purchases: false
+  )
 end
 
 before_all do
+  # Xcode's IPA export calls rsync -E. Homebrew rsync rejects that flag.
   sanitized = ENV["PATH"].split(":").reject { |path| path.start_with?("/opt/homebrew", "/usr/local") }
   ENV["PATH"] = sanitized.join(":")
 
@@ -186,371 +462,79 @@ before_all do
   )
 end
 
-desc "Bump the marketing version. Pass bump:patch (default), bump:minor, or bump:major"
-lane :bump_version do |options|
-  bump_type = options[:bump] || "patch"
-  current = current_marketing_version
-  parts = current.split(".").map(&:to_i)
-  parts << 0 while parts.length < 3
+desc "Upload this commit to TestFlight for iOS and macOS and distribute it to the internal group. The marketing version comes from VERSION. The build number is not committed."
+lane :ship_testflight do
+  version = apply_version_file!
+  build_number = next_remote_build_number!
+  ios_profile = install_profile!("ios")
+  mac_profile = install_profile!("macos")
+  UI.message("TestFlight #{version} (#{build_number})")
 
-  case bump_type
-  when "major"
-    parts = [parts[0] + 1, 0, 0]
-  when "minor"
-    parts = [parts[0], parts[1] + 1, 0]
-  else
-    parts = [parts[0], parts[1], parts[2] + 1]
-  end
+  archive_store_app!(
+    destination: "generic/platform=iOS",
+    profile_name: ios_profile,
+    output_directory: "build/ios",
+    output_name: "8 Ball.ipa"
+  )
+  archive_store_app!(
+    destination: "generic/platform=macOS",
+    profile_name: mac_profile,
+    output_directory: "build/macos",
+    output_name: "8 Ball.pkg"
+  )
 
-  new_version = parts.join(".")
-  set_marketing_version!(new_version)
-  next_build = bump_build_number!
-  UI.success("Bumped to #{new_version} (build #{next_build})")
+  ipa = Dir.glob(File.join(repo_root, "build", "ios", "*.ipa")).first
+  pkg = Dir.glob(File.join(repo_root, "build", "macos", "*.pkg")).first
+  UI.user_error!("iOS ipa was not exported") unless ipa
+  UI.user_error!("macOS pkg was not exported") unless pkg
+
+  altool_upload!(ipa, "ios")
+  altool_upload!(pkg, "macos")
+  distribute_build!(version: version, build_number: build_number, platform: "IOS")
+  distribute_build!(version: version, build_number: build_number, platform: "MAC_OS")
+  github_output!(version: version, build_number: build_number)
 end
 
-desc "Bump only the build number (used before each beta upload)"
-lane :bump_build do
-  next_build = bump_build_number!
-  UI.success("Bumped build number to #{next_build}")
+desc "Generate iPhone, iPad, and Mac screenshots for every language in answers-by-locale.json. Files are written under fastlane/screenshots and are not committed."
+lane :generate_screenshots do
+  check_answer_locales!
+  apply_version_file!
+  output_root = File.expand_path("screenshots", __dir__)
+  FileUtils.rm_rf(output_root)
+  capture_ios_screenshots!(output_root)
+  capture_mac_screenshots!(output_root)
+  UI.success("Screenshots saved under fastlane/screenshots")
 end
 
-platform :ios do
-  desc "Capture App Store screenshots for iPhone, iPad, and Apple Watch. Pass locales:en-US and devices:'iPhone 17 Pro Max,Apple Watch Ultra 3 (49mm)' to filter"
-  lane :screenshots do |options|
-    locale_filter = options[:locales].to_s.split(",").map(&:strip).reject(&:empty?)
-    unless locale_filter.empty?
-      UI.user_error!("Only en-US is currently supported") unless locale_filter == ["en-US"]
-    end
+desc "Submit the TestFlight build to App Store review for iOS and macOS. Pass build_number:. Screenshots must already be under fastlane/screenshots. What's New is the newest CHANGELOG.md section."
+lane :submit_app_store do |options|
+  version = apply_version_file!
+  build_number = options[:build_number].to_s.strip
+  UI.user_error!("Pass build_number: from the TestFlight upload") if build_number.empty?
+  notes = changelog_notes
+  check_answer_locales!
 
-    device_filter = options[:devices].to_s.split(",").map(&:strip).reject(&:empty?)
-    output_dir = File.expand_path("screenshots/en-US", __dir__)
-    FileUtils.mkdir_p(output_dir)
-    FileUtils.rm_f(Dir.glob(File.join(output_dir, "*.png")))
+  ios_screenshots = File.expand_path("screenshots/ios", __dir__)
+  mac_screenshots = File.expand_path("screenshots/macos", __dir__)
+  UI.user_error!("iOS screenshots are missing") if Dir.glob(File.join(ios_screenshots, "**", "*.png")).empty?
+  UI.user_error!("macOS screenshots are missing") if Dir.glob(File.join(mac_screenshots, "**", "*.png")).empty?
 
-    ios_devices = device_filter.empty? ? IOS_DEVICES : IOS_DEVICES.select { |device| device_filter.include?(device[:name]) }
-    watch_devices = device_filter.empty? ? WATCH_DEVICES : WATCH_DEVICES.select { |device| device_filter.include?(device[:name]) }
-    UI.user_error!("No matching devices found for devices filter") if ios_devices.empty? && watch_devices.empty?
+  prepare_metadata!(File.expand_path("metadata", __dir__), notes)
+  prepare_metadata!(File.expand_path("metadata-macos", __dir__), notes)
 
-    selected_ios_devices = ios_devices.map { |device| latest_simulator_for(device[:name], "iOS") }
-    selected_watch_devices = watch_devices.map { |device| latest_simulator_for(device[:name], "watchOS") }
-
-    # Build for iOS Simulator
-    sh(
-      "xcodebuild" \
-      " -project '../8 Ball.xcodeproj'" \
-      " -scheme '#{SCHEME}'" \
-      " -destination 'platform=iOS Simulator,id=#{selected_ios_devices.first[:udid]}'" \
-      " -derivedDataPath '../build'" \
-      " build"
-    )
-
-    ios_app = Dir.glob("../build/Build/Products/*-iphonesimulator/8 Ball.app").first
-    UI.user_error!("Could not find iOS app in ../build") unless ios_app
-
-    ios_devices.zip(selected_ios_devices).each do |device, selected_sim|
-      capture_device_screenshots(device.merge(udid: selected_sim[:udid], bundle_id: BUNDLE_ID), ios_app, output_dir)
-    end
-
-    # Build for watchOS Simulator
-    sh(
-      "xcodebuild" \
-      " -project '../8 Ball.xcodeproj'" \
-      " -scheme '#{SCHEME}'" \
-      " -sdk watchsimulator" \
-      " -derivedDataPath '../build'" \
-      " build"
-    )
-
-    watch_app = Dir.glob("../build/Build/Products/*-watchsimulator/8 Ball.app").first
-    UI.user_error!("Could not find watchOS app in ../build") unless watch_app
-
-    watch_devices.zip(selected_watch_devices).each do |device, selected_sim|
-      capture_device_screenshots(
-        device.merge(udid: selected_sim[:udid], bundle_id: "#{BUNDLE_ID}.watchkitapp"),
-        watch_app,
-        output_dir
-      )
-    end
-
-    UI.success("Screenshots saved to fastlane/screenshots/en-US/")
-  end
-
-  desc "Upload screenshots to App Store Connect"
-  lane :upload_screenshots do
-    upload_to_app_store(
-      app_version: current_marketing_version,
-      skip_binary_upload: true,
-      skip_metadata: true,
-      skip_screenshots: false,
-      overwrite_screenshots: true,
-      force: true,
-      run_precheck_before_submit: false
-    )
-  end
-
-  desc "Generate screenshots and upload them to App Store Connect"
-  lane :screenshots_and_upload do
-    screenshots
-    upload_screenshots
-  end
-
-  desc "Build a signed release .ipa and upload it to TestFlight (uses altool)"
-  lane :beta do |options|
-    requested_build_number = options[:build_number]&.to_i
-    build_number = if requested_build_number && requested_build_number > 0
-      bump_build_number!(requested_build_number)
-    else
-      bump_build_number!
-    end
-
-    UI.message("Using build number #{build_number}")
-    build_app(
-      project: XCODEPROJ,
-      scheme: SCHEME,
-      configuration: "Release",
-      export_method: "app-store",
-      destination: "generic/platform=iOS",
-      clean: true,
-      output_directory: "build",
-      output_name: "8 Ball.ipa"
-    )
-    altool_upload!(File.expand_path("../build/8 Ball.ipa", __dir__), type: "ios")
-    print_testflight_links!(platform: :ios, version: current_marketing_version, build_number: build_number)
-  end
-
-  desc "Legacy iOS TestFlight upload via fastlane-pilot. Currently fails with " \
-    "stale 'previousBundleVersion' errors; kept as a fallback while Apple's " \
-    "ContentDelivery service is misbehaving."
-  lane :beta_pilot do |options|
-    requested_build_number = options[:build_number]&.to_i
-    build_number = if requested_build_number && requested_build_number > 0
-      bump_build_number!(requested_build_number)
-    else
-      bump_build_number!
-    end
-
-    UI.message("Using build number #{build_number}")
-    build_app(
-      project: XCODEPROJ,
-      scheme: SCHEME,
-      configuration: "Release",
-      export_method: "app-store",
-      destination: "generic/platform=iOS",
-      clean: true,
-      output_directory: "build",
-      output_name: "8 Ball.ipa"
-    )
-    upload_to_testflight(
-      skip_waiting_for_build_processing: true,
-      skip_submission: true
-    )
-    print_testflight_links!(platform: :ios, version: current_marketing_version, build_number: build_number)
-  end
-
-  desc "Same as :beta but uploads via `xcrun altool` directly. Use this if " \
-    "`upload_to_testflight` errors with a stale previousBundleVersion mismatch."
-  lane :beta_altool do |options|
-    requested_build_number = options[:build_number]&.to_i
-    build_number = if requested_build_number && requested_build_number > 0
-      bump_build_number!(requested_build_number)
-    else
-      bump_build_number!
-    end
-
-    UI.message("Using build number #{build_number}")
-    build_app(
-      project: XCODEPROJ,
-      scheme: SCHEME,
-      configuration: "Release",
-      export_method: "app-store",
-      destination: "generic/platform=iOS",
-      clean: true,
-      output_directory: "build",
-      output_name: "8 Ball.ipa"
-    )
-    altool_upload!(File.expand_path("../build/8 Ball.ipa", __dir__), type: "ios")
-    print_testflight_links!(platform: :ios, version: current_marketing_version, build_number: build_number)
-  end
-
-  desc "Build the signed release .ipa without uploading"
-  lane :build_release do
-    build_app(
-      project: XCODEPROJ,
-      scheme: SCHEME,
-      configuration: "Release",
-      export_method: "app-store",
-      destination: "generic/platform=iOS",
-      clean: true,
-      output_directory: "build",
-      output_name: "8 Ball.ipa"
-    )
-  end
-
-  desc "Submit the latest TestFlight build for App Store review"
-  lane :release do |options|
-    notes = options[:notes]
-    if notes.nil? || notes.strip.empty?
-      notes = UI.input("Release notes (What's New) for en-US:")
-    end
-    UI.user_error!("Release notes are required to submit for review") if notes.nil? || notes.strip.empty?
-    selected_build_number = options[:build_number]&.to_s
-    selected_build_number = nil if selected_build_number&.strip&.empty?
-
-    upload_to_app_store(
-      app_version: current_marketing_version,
-      build_number: selected_build_number,
-      skip_binary_upload: true,
-      skip_metadata: false,
-      skip_screenshots: true,
-      overwrite_screenshots: true,
-      release_notes: { "en-US" => notes },
-      submit_for_review: true,
-      automatic_release: true,
-      submission_information: {
-        add_id_info_uses_idfa: false,
-        export_compliance_uses_encryption: false,
-        content_rights_contains_third_party_content: false
-      },
-      force: true,
-      run_precheck_before_submit: false
-    )
-  end
-
-  desc "Full pipeline (iOS): bump_version, beta, screenshots, upload_screenshots, release. Pass notes:'...'"
-  lane :full_release do |options|
-    bump_version(bump: options[:bump] || "patch")
-    beta(build_number: options[:build_number])
-    screenshots(locales: options[:locales], devices: options[:devices])
-    upload_screenshots
-    release(notes: options[:notes], build_number: options[:build_number])
-  end
-end
-
-platform :mac do
-  desc "Upload staged macOS screenshots to App Store Connect"
-  lane :upload_screenshots do
-    source_root = File.expand_path("screenshots", __dir__)
-    staged_root = Dir.mktmpdir("mac_upload_screenshots")
-    copied_count = 0
-    Dir.glob(File.join(source_root, "*")).sort.each do |locale_dir|
-      next unless File.directory?(locale_dir)
-      locale = File.basename(locale_dir)
-      mac_pngs = Dir.glob(File.join(locale_dir, "Mac-*.png")).sort
-      next if mac_pngs.empty?
-
-      staged_locale_dir = File.join(staged_root, locale)
-      FileUtils.mkdir_p(staged_locale_dir)
-      mac_pngs.each do |src|
-        FileUtils.cp(src, File.join(staged_locale_dir, File.basename(src)))
-        copied_count += 1
-      end
-    end
-    UI.user_error!("No macOS screenshots found. Expected files like 'Mac-*.png' under fastlane/screenshots/<locale>/") if copied_count.zero?
-
-    upload_to_app_store(
-      platform: "osx",
-      app_version: current_marketing_version,
-      skip_binary_upload: true,
-      skip_metadata: true,
-      skip_screenshots: false,
-      overwrite_screenshots: true,
-      screenshots_path: staged_root,
-      force: true,
-      run_precheck_before_submit: false
-    )
-  end
-
-  desc "Build a signed macOS .pkg and upload it to TestFlight"
-  lane :beta do |options|
-    requested_build_number = options[:build_number]&.to_i
-    build_number = if requested_build_number && requested_build_number > 0
-      bump_build_number!(requested_build_number)
-    else
-      bump_build_number!
-    end
-    UI.message("Using build number #{build_number}")
-
-    repo_root = File.expand_path("..", __dir__)
-    build_dir = File.join(repo_root, "build")
-    archive_path = File.join(build_dir, "8 Ball macOS.xcarchive")
-    pkg_path = File.join(build_dir, "8 Ball.pkg")
-    export_options_path = File.join(build_dir, "MacExportOptions.plist")
-
-    FileUtils.mkdir_p(build_dir)
-    FileUtils.rm_rf(archive_path)
-    FileUtils.rm_f(pkg_path)
-
-    sh(
-      "cd #{Shellwords.escape(repo_root)} && " \
-        "xcodebuild -project #{Shellwords.escape(XCODEPROJ)} " \
-        "-scheme #{Shellwords.escape(SCHEME)} -configuration Release " \
-        "-destination 'generic/platform=macOS' " \
-        "-archivePath #{Shellwords.escape(archive_path)} " \
-        "-allowProvisioningUpdates clean archive"
-    )
-
-    File.write(export_options_path, <<~PLIST)
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0"><dict>
-        <key>method</key><string>app-store</string>
-        <key>signingStyle</key><string>automatic</string>
-        <key>teamID</key><string>8Q693ZG5RN</string>
-      </dict></plist>
-    PLIST
-
-    sh(
-      "xcodebuild -exportArchive " \
-        "-archivePath #{Shellwords.escape(archive_path)} " \
-        "-exportOptionsPlist #{Shellwords.escape(export_options_path)} " \
-        "-exportPath #{Shellwords.escape(build_dir)} " \
-        "-allowProvisioningUpdates"
-    )
-
-    exported_pkg = Dir.glob(File.join(build_dir, "*.pkg")).first
-    UI.user_error!("macOS .pkg not found in #{build_dir}") unless exported_pkg
-    FileUtils.mv(exported_pkg, pkg_path) unless exported_pkg == pkg_path
-
-    altool_upload!(pkg_path, type: "macos")
-    print_testflight_links!(platform: :mac, version: current_marketing_version, build_number: build_number)
-  end
-
-  desc "Submit the latest macOS TestFlight build for App Store review"
-  lane :release do |options|
-    notes = options[:notes]
-    if notes.nil? || notes.strip.empty?
-      notes = UI.input("Release notes (What's New) for macOS en-US:")
-    end
-    UI.user_error!("Release notes are required to submit for review") if notes.nil? || notes.strip.empty?
-    selected_build_number = options[:build_number]&.to_s
-    selected_build_number = nil if selected_build_number&.strip&.empty?
-
-    upload_to_app_store(
-      platform: "osx",
-      app_version: current_marketing_version,
-      build_number: selected_build_number,
-      skip_binary_upload: true,
-      skip_metadata: false,
-      skip_screenshots: true,
-      overwrite_screenshots: true,
-      release_notes: { "en-US" => notes },
-      submit_for_review: true,
-      automatic_release: true,
-      submission_information: {
-        add_id_info_uses_idfa: false,
-        export_compliance_uses_encryption: false,
-        content_rights_contains_third_party_content: false
-      },
-      force: true,
-      run_precheck_before_submit: false
-    )
-  end
-
-  desc "Full pipeline (macOS): bump_version, beta, upload_screenshots, release. Pass notes:'...'"
-  lane :full_release do |options|
-    bump_version(bump: options[:bump] || "patch")
-    beta(build_number: options[:build_number])
-    upload_screenshots
-    release(notes: options[:notes], build_number: options[:build_number])
-  end
+  submit_store!(
+    platform: "ios",
+    version: version,
+    build_number: build_number,
+    metadata_path: File.expand_path("metadata", __dir__),
+    screenshots_path: ios_screenshots
+  )
+  submit_store!(
+    platform: "osx",
+    version: version,
+    build_number: build_number,
+    metadata_path: File.expand_path("metadata-macos", __dir__),
+    screenshots_path: mac_screenshots
+  )
+  UI.success("Submitted #{version} (#{build_number}) for iOS and macOS review")
 end
