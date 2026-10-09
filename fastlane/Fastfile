@@ -493,7 +493,7 @@ lane :ship_testflight do
   )
   ipa = Dir.glob(File.join(repo_root, "build", "ios", "*.ipa")).first
   UI.user_error!("iOS ipa was not exported") unless ipa
-  altool_upload!(ipa, "ios")
+  altool_upload!(ipa, type: "ios")
   distribute_build!(version: version, build_number: build_number, platform: "IOS")
 
   archive_store_app!(
@@ -505,7 +505,7 @@ lane :ship_testflight do
   )
   pkg = Dir.glob(File.join(repo_root, "build", "macos", "*.pkg")).first
   UI.user_error!("macOS pkg was not exported") unless pkg
-  altool_upload!(pkg, "macos")
+  altool_upload!(pkg, type: "macos")
   distribute_build!(version: version, build_number: build_number, platform: "MAC_OS")
   github_output!(version: version, build_number: build_number)
 end
