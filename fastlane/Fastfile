@@ -294,14 +294,25 @@ end
 
 def distribute_build!(version:, build_number:, platform:)
   build = wait_for_processed_build!(version: version, build_number: build_number, platform: platform)
-  build.update(attributes: { uses_non_exempt_encryption: false })
+  begin
+    build.update(attributes: { uses_non_exempt_encryption: false })
+  rescue Spaceship::UnexpectedResponse => error
+    raise unless error.message.include?("usesNonExemptEncryption")
+    UI.message("#{platform} build already has the encryption answer")
+  end
   app = Spaceship::ConnectAPI::App.find(BUNDLE_ID)
-  groups = Spaceship::ConnectAPI::BetaGroup.all(app_id: app.id)
-  group = groups.find { |candidate| candidate.name == INTERNAL_BETA_GROUP && candidate.is_internal_group }
+  groups = app.get_beta_groups
+  group = groups.find do |candidate|
+    candidate.is_internal_group && candidate.name.to_s.gsub(/[[:space:]]+/, " ").strip == INTERNAL_BETA_GROUP
+  end
   group ||= groups.find(&:is_internal_group)
   UI.user_error!("No internal TestFlight group named #{INTERNAL_BETA_GROUP}") unless group
-  build.add_beta_groups(beta_groups: [group])
-  UI.success("Added #{platform} build #{version} (#{build_number}) to #{group.name}")
+  if group.has_access_to_all_builds
+    UI.success("#{group.name} already receives every #{platform} build, including #{version} (#{build_number})")
+  else
+    build.add_beta_groups(beta_groups: [group])
+    UI.success("Added #{platform} build #{version} (#{build_number}) to #{group.name}")
+  end
 end
 
 def github_output!(version:, build_number:)
