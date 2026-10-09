@@ -164,12 +164,11 @@ def next_remote_build_number!
 end
 
 def install_profile!(platform)
+  # Omitting :development and :adhoc. Passing both, even as false, makes sigh
+  # treat them as enabled together. The default is an App Store profile.
   get_provisioning_profile(
     app_identifier: BUNDLE_ID,
-    platform: platform,
-    development: false,
-    adhoc: false,
-    skip_install: false
+    platform: platform
   )
   name = Actions.lane_context[SharedValues::SIGH_NAME]
   UI.user_error!("No #{platform} provisioning profile name was returned") if name.to_s.strip.empty?
