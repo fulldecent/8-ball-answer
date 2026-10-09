@@ -68,6 +68,8 @@ This is the maintainer setup for [.github/workflows/release.yml](.github/workflo
    | `APP_STORE_CONNECT_KEY` | Contents of the AuthKey `.p8` file |
    | `APP_STORE_DISTRIBUTION_P12` | Base64 of an Apple Distribution PKCS12 |
    | `APP_STORE_DISTRIBUTION_P12_PASSWORD` | Password for that PKCS12 |
+   | `APP_STORE_MAC_INSTALLER_P12` | Base64 of a Mac Installer Distribution PKCS12 |
+   | `APP_STORE_MAC_INSTALLER_P12_PASSWORD` | Password for that PKCS12 |
 
    The workflow creates the provisioning profiles at build time. Profiles are not stored. The API key needs App Manager access. Replace a secret with `gh secret set <NAME> --repo fulldecent/8-ball-answer`. For the certificate, `base64 < distribution.p12` is the value of `APP_STORE_DISTRIBUTION_P12`. `fastlane cert` can create a new Apple Distribution certificate when the private key on this machine cannot be exported.
 

@@ -9,6 +9,7 @@ APP_TARGET = "8 Ball"
 BUNDLE_ID = "net.phor.--Ball"
 APP_STORE_CONNECT_APP_ID = "995732766"
 TEAM_ID = "8Q693ZG5RN"
+INSTALLER_CERT_NAME = "3rd Party Mac Developer Installer: William Entriken (8Q693ZG5RN)"
 INTERNAL_BETA_GROUP = "App Store Connect Users"
 RELEASE_NOTES_LIMIT = 3500
 
@@ -175,13 +176,13 @@ def install_profile!(platform)
   name
 end
 
-def archive_store_app!(destination:, profile_name:, output_directory:, output_name:)
+def archive_store_app!(destination:, profile_name:, output_directory:, output_name:, installer_cert_name: nil)
   # build_app writes every sigh profile onto this bundle id. The macOS profile
   # is fetched second, so it was replacing the iOS one at export.
   Actions.lane_context[SharedValues::SIGH_PROFILE_PATH] = nil
   Actions.lane_context[SharedValues::SIGH_PROFILE_PATHS] = nil
   profile_name = profile_name.dup
-  build_app(
+  options = {
     project: XCODEPROJ,
     scheme: SCHEME,
     configuration: "Release",
@@ -207,7 +208,9 @@ def archive_store_app!(destination:, profile_name:, output_directory:, output_na
         BUNDLE_ID => profile_name
       }
     }
-  )
+  }
+  options[:installer_cert_name] = installer_cert_name if installer_cert_name
+  build_app(options)
 end
 
 # upload_to_testflight returns a stale previousBundleVersion for this app.
@@ -488,21 +491,21 @@ lane :ship_testflight do
     output_directory: "build/ios",
     output_name: "8 Ball.ipa"
   )
+  ipa = Dir.glob(File.join(repo_root, "build", "ios", "*.ipa")).first
+  UI.user_error!("iOS ipa was not exported") unless ipa
+  altool_upload!(ipa, "ios")
+  distribute_build!(version: version, build_number: build_number, platform: "IOS")
+
   archive_store_app!(
     destination: "generic/platform=macOS",
     profile_name: mac_profile,
     output_directory: "build/macos",
-    output_name: "8 Ball.pkg"
+    output_name: "8 Ball.pkg",
+    installer_cert_name: INSTALLER_CERT_NAME
   )
-
-  ipa = Dir.glob(File.join(repo_root, "build", "ios", "*.ipa")).first
   pkg = Dir.glob(File.join(repo_root, "build", "macos", "*.pkg")).first
-  UI.user_error!("iOS ipa was not exported") unless ipa
   UI.user_error!("macOS pkg was not exported") unless pkg
-
-  altool_upload!(ipa, "ios")
   altool_upload!(pkg, "macos")
-  distribute_build!(version: version, build_number: build_number, platform: "IOS")
   distribute_build!(version: version, build_number: build_number, platform: "MAC_OS")
   github_output!(version: version, build_number: build_number)
 end
