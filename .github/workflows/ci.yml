@@ -1,0 +1,51 @@
+name: CI
+
+# The simulator job follows the macOS job in Swift 6 Module Template 16.5.0
+# (.github/workflows/swiftlang-workflows.yml). That job uses the GitHub-hosted
+# xcode-27 image because macos-26 stops at Xcode 26.
+# https://github.blog/changelog/2026-07-16-xcode-27-runner-image-now-in-public-preview/
+# https://github.com/actions/runner-images/blob/main/images/macos/xcode-27-arm64-Readme.md
+#
+# This repository is an Xcode app, not a Swift package, so `xcrun swift test`
+# does not build it. The destination is the iPhone 17 simulator on iOS 27.0,
+# which the Xcode 27.0 image lists.
+#
+# Debug signing is manual and the device provisioning profile is not on the
+# runner. CODE_SIGNING_ALLOWED=NO lets the simulator test build without it.
+# swift format is the formatter the template's soundness workflow runs.
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    name: Build and test
+    runs-on: xcode-27
+    timeout-minutes: 30
+    steps:
+      - name: Check out this commit
+        uses: actions/checkout@v7
+
+      - name: Show build environment
+        run: |
+          xcodebuild -version
+          xcrun swift --version
+
+      - name: Check formatting
+        run: |
+          swift format format --in-place --recursive "8 Ball" "8 BallTests"
+          git diff --exit-code || (echo 'Code is not formatted. Run: swift format format --in-place --recursive "8 Ball" "8 BallTests"' && exit 1)
+
+      - name: Test
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project "8 Ball.xcodeproj" \
+            -scheme "8 Ball" \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.0' \
+            CODE_SIGNING_ALLOWED=NO
