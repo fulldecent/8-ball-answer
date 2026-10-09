@@ -123,6 +123,27 @@ def apply_version_file!
   version
 end
 
+def semver(version)
+  version.split(".").map(&:to_i)
+end
+
+# Apple rejects builds for a version that is already on sale (altool 90186).
+# The bump stays on the runner. VERSION is still owned by Release Please.
+def open_train_version!(version)
+  app = Spaceship::ConnectAPI::App.find(BUNDLE_ID)
+  UI.user_error!("App #{BUNDLE_ID} was not found in App Store Connect") unless app
+  closed = ["IOS", "MAC_OS"].filter_map do |platform|
+    app.get_live_app_store_version(platform: platform)&.version_string
+  end
+  current = semver(version)
+  highest = closed.map { |item| semver(item) }.max
+  return version if highest.nil? || (current <=> highest) == 1
+  opened = "#{highest[0]}.#{highest[1]}.#{highest[2] + 1}"
+  set_marketing_version!(opened)
+  UI.important("App Store #{highest.join('.')} is closed for new builds. TestFlight will use #{opened}")
+  opened
+end
+
 def changelog_notes
   path = File.join(repo_root, "CHANGELOG.md")
   UI.user_error!("CHANGELOG.md is missing") unless File.exist?(path)
@@ -479,7 +500,7 @@ end
 
 desc "Upload this commit to TestFlight for iOS and macOS and distribute it to the internal group. The marketing version comes from VERSION. The build number is not committed."
 lane :ship_testflight do
-  version = apply_version_file!
+  version = open_train_version!(apply_version_file!)
   build_number = next_remote_build_number!
   ios_profile = install_profile!("ios")
   mac_profile = install_profile!("macos")

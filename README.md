@@ -75,7 +75,7 @@ This is the maintainer setup for [.github/workflows/release.yml](.github/workflo
 
 ## Releasing a new version
 
-Every push to `main` tests the app, then uploads an iOS build and a macOS build to TestFlight and adds both to the internal group App Store Connect Users. The marketing version comes from [VERSION](VERSION). The build number is one higher than the newest TestFlight build on either platform and is not committed.
+Every push to `main` tests the app, then uploads an iOS build and a macOS build to TestFlight and adds both to the internal group App Store Connect Users. The marketing version comes from [VERSION](VERSION). When that version is already on sale, the upload uses the next patch number and does not commit it. The build number is one higher than the newest TestFlight build on either platform and is not committed.
 
 Commit messages on `main` use [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/). `fix:` bumps the patch version, `feat:` bumps the minor version, and `BREAKING CHANGE:` bumps the major version. `ci:` and `chore:` do not. [Release Please](https://github.com/googleapis/release-please) opens a pull request that updates [VERSION](VERSION), the `MARKETING_VERSION` lines marked `x-release-please-version`, and `CHANGELOG.md`. Merging that pull request runs the screenshot job and then submits the iOS and macOS versions for review with automatic release. The GitHub tag `v<version>` is created after that submission succeeds.
 
