@@ -1,6 +1,8 @@
 # 8 Ball Answer 🎱
 
-Get it now on the App Store: [iOS](https://github.com/fulldecent/FDSoundActivatedRecorder/releases/tag/3.2.0)
+[![CI](https://github.com/fulldecent/8-ball-answer/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fulldecent/8-ball-answer/actions/workflows/ci.yml)
+
+Get it now on the App Store: [iOS](https://apps.apple.com/us/app/8-ball-answer/id995732766)
 
 A delightfully simple iOS + watchOS app for answering questions, 8 Ball Answer is perfect for providing entertainment and making randomized decisions. Just tap the screen and receive an answer!
 
@@ -29,6 +31,26 @@ To install and enjoy 8 Ball Answer, follow these simple steps:
 ![Simulator Screen Shot - iPad Pro (12 9-inch) (3rd generation) - 2020-01-02 at 15 50 13](https://user-images.githubusercontent.com/382183/71692537-2d721c80-2d78-11ea-8da9-17b4c713647b.png)
 **Potential answer to a question:**
 ![Simulator Screen Shot - iPad Pro (12 9-inch) (3rd generation) - 2020-01-02 at 15 50 14](https://user-images.githubusercontent.com/382183/71692538-2e0ab300-2d78-11ea-95f6-ef786291693f.png)
+
+## Development
+
+Format the Swift files the CI workflow checks. The formatter is `swift format`, the same one the Swift 6 Module Template soundness workflow runs.
+
+```sh
+swift format format --in-place --recursive "8 Ball" "8 BallTests"
+```
+
+Run the tests on the iPhone 17 simulator:
+
+```sh
+xcodebuild test \
+  -project "8 Ball.xcodeproj" \
+  -scheme "8 Ball" \
+  -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.0' \
+  CODE_SIGNING_ALLOWED=NO
+```
+
+`CODE_SIGNING_ALLOWED=NO` is for a machine that does not have the device provisioning profile. A local run signed with your own team can omit it.
 
 ## Releasing a new version
 
@@ -116,3 +138,10 @@ Or run individual stages:
 :information_source: If App Store Connect rejects a beta upload because the build number is behind the remote value, set the project build number once to remote highest + 1, commit that change, and then resume normal local increments.
 
 :information_source: Our `before_all` hook in `fastlane/Fastfile` strips `/opt/homebrew` and `/usr/local` from `PATH` before `xcodebuild -exportArchive` runs. This is a workaround for a bug in Xcode 26's IPA packaging step ("Copy failed") because `/usr/bin/rsync` and Homebrew's `rsync` disagree on the `-E` flag.
+
+## References
+
+1. This project is built based on [best practices documented in Swift 6 Module Template](https://github.com/fulldecent/swift6-module-template), release 16.5.0. Continuous integration follows that release's macOS job: the GitHub-hosted `xcode-27` runner and `actions/checkout@v7`. The template runs `xcrun swift test` for a Swift package. This repository is an Xcode app, so [.github/workflows/ci.yml](.github/workflows/ci.yml) runs `xcodebuild test` on the iPhone 17 simulator for iOS 27.0.
+2. Releases stay on fastlane. The template's [release workflow](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/release.yml) attests a Linux static library. There is no package to publish that way, and the version that ships is `MARKETING_VERSION`.
+3. Swift ignore rules follow the template's [.gitignore](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.gitignore), which inlines [Swift.gitignore](https://github.com/github/gitignore/blob/main/Swift.gitignore). `fastlane/api_key.json`, `*.p8`, and `vendor/bundle/` stay ignored because those files are secrets or a local Ruby install.
+4. The license is MIT. The template says to consider which license applies. This repository had no license file. Copyright starts at the first commit, 2015.
