@@ -416,27 +416,20 @@ def capture_ios_screenshots!(output_root)
   end
 end
 
-def mac_screenshot_tool!
-  source = File.expand_path("mac_screenshot.swift", __dir__)
-  binary = File.join(repo_root, "build", "mac_screenshot")
-  FileUtils.mkdir_p(File.dirname(binary))
-  shell!("swiftc", "-O", "-o", binary, source)
-  binary
-end
-
-def capture_mac_shot!(tool, app_path, destination, language, apple_locale, screenshot)
-  sh("osascript -e 'tell application \"8 Ball\" to quit' >/dev/null 2>&1 || true")
-  sleep(1)
-  shell!("open", "-n", "-a", app_path, "--args", *launch_args(language, apple_locale, screenshot))
-  sleep(2)
-  sh("osascript -e 'tell application \"System Events\" to tell process \"8 Ball\" to set size of window 1 to {1440, 900}' >/dev/null 2>&1 || true")
-  shell!(tool, destination)
-  sh("osascript -e 'tell application \"8 Ball\" to quit' >/dev/null 2>&1 || true")
+def capture_mac_shot!(executable, destination, language, apple_locale, screenshot)
+  FileUtils.rm_f(destination)
+  shell!(
+    executable,
+    *launch_args(language, apple_locale, screenshot),
+    "-screenshot-file",
+    destination
+  )
+  UI.user_error!("Mac screenshot was not written to #{destination}") unless File.size?(destination).to_i > 1000
 end
 
 def capture_mac_screenshots!(output_root)
-  tool = mac_screenshot_tool!
   derived = File.join(repo_root, "build", "screenshot-macos")
+  # Sandbox stays on for the store archive. This build has to write the PNG into the workspace.
   shell!(
     "xcodebuild",
     "-project", xcodeproj_path,
@@ -445,17 +438,19 @@ def capture_mac_screenshots!(output_root)
     "-destination", "platform=macOS",
     "-derivedDataPath", derived,
     "CODE_SIGNING_ALLOWED=NO",
+    "ENABLE_APP_SANDBOX=NO",
     "build"
   )
   app = Dir.glob(File.join(derived, "Build", "Products", "Release", "#{APP_TARGET}.app")).first
   UI.user_error!("Could not find the macOS app") unless app
   shell!("codesign", "--force", "--deep", "--sign", "-", app)
+  executable = File.join(app, "Contents", "MacOS", APP_TARGET)
 
   ANSWER_LOCALES.each_value do |asc, language, apple_locale|
     directory = File.join(output_root, "macos", asc)
     FileUtils.mkdir_p(directory)
-    capture_mac_shot!(tool, app, File.join(directory, "01_mac.png"), language, apple_locale, false)
-    capture_mac_shot!(tool, app, File.join(directory, "02_mac.png"), language, apple_locale, true)
+    capture_mac_shot!(executable, File.join(directory, "01_mac.png"), language, apple_locale, false)
+    capture_mac_shot!(executable, File.join(directory, "02_mac.png"), language, apple_locale, true)
   end
 end
 

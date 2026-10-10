@@ -9,6 +9,12 @@ import SwiftUI
 
 @main
 struct __BallApp: App {
+  init() {
+    #if os(macOS)
+    MacScreenshot.exportIfRequested(answers: AnswersModel())
+    #endif
+  }
+
   var body: some Scene {
     WindowGroup {
       ContentView()
