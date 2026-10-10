@@ -34,7 +34,7 @@ To install and enjoy 8 Ball Answer, follow these simple steps:
 
 ## Development
 
-Format the Swift files the CI workflow checks. The formatter is `swift format`, the same one the Swift 6 Module Template soundness workflow runs.
+Format the Swift files the CI workflow checks. The formatter is `swift format`, the same one [swift-app-template](https://github.com/fulldecent/swift-app-template/blob/v1.0.0/.github/workflows/build-test.yml) runs.
 
 ```sh
 swift format format --in-place --recursive "8 Ball" "8 BallTests"
@@ -96,7 +96,7 @@ bundle exec fastlane submit_app_store build_number:123
 
 ## References
 
-1. This project is built based on [best practices documented in Swift 6 Module Template](https://github.com/fulldecent/swift6-module-template), release 16.5.0. Continuous integration follows that release's macOS job: the GitHub-hosted `xcode-27` runner and `actions/checkout@v7`. The template runs `xcrun swift test` for a Swift package. This repository is an Xcode app, so [.github/workflows/ci.yml](.github/workflows/ci.yml) runs `xcodebuild test` on the iPhone 17 simulator for iOS 27.0.
-2. Releases follow the template's [release workflow](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/release.yml), release 16.5.0. That workflow attests a Linux static library. This repository uploads the iOS and macOS apps to TestFlight on every push to `main`, and submits both for App Store review when the release pull request merges. The version file is [VERSION](VERSION).
-3. Swift ignore rules follow the template's [.gitignore](https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.gitignore), which inlines [Swift.gitignore](https://github.com/github/gitignore/blob/main/Swift.gitignore). `fastlane/api_key.json`, `*.p8`, and `vendor/bundle/` stay ignored because those files are secrets or a local Ruby install.
+1. This project is built based on [best practices documented in swift-app-template](https://github.com/fulldecent/swift-app-template), release 1.0.0. Continuous integration follows that release's [build-and-test workflow](https://github.com/fulldecent/swift-app-template/blob/v1.0.0/.github/workflows/build-test.yml): the GitHub-hosted `xcode-27` runner, `actions/checkout@v7`, and `xcodebuild test` on the iPhone 17 simulator for iOS 27.0.
+2. Releases follow that template's [release workflow](https://github.com/fulldecent/swift-app-template/blob/v1.0.0/.github/workflows/release.yml). This repository uploads the iOS and macOS apps to TestFlight on every push to `main`, and submits both for App Store review when the release pull request merges. The version file is [VERSION](VERSION). The template skips the upload until `APP_STORE_CONNECT_KEY_ID` is set. This repository has that secret, so the upload runs.
+3. Swift ignore rules follow the template's [.gitignore](https://github.com/fulldecent/swift-app-template/blob/v1.0.0/.gitignore), which inlines [Swift.gitignore](https://github.com/github/gitignore/blob/main/Swift.gitignore). `fastlane/api_key.json`, `*.p8`, and `vendor/bundle/` stay ignored because those files are secrets or a local Ruby install.
 4. The license is MIT. The template says to consider which license applies. This repository had no license file. Copyright starts at the first commit, 2015.

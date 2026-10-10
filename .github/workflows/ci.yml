@@ -1,18 +1,16 @@
 name: CI
 
-# The simulator job follows the macOS job in Swift 6 Module Template 16.5.0
-# (.github/workflows/swiftlang-workflows.yml). That job uses the GitHub-hosted
+# The simulator job follows swift-app-template 1.0.0
+# (.github/workflows/build-test.yml). That job uses the GitHub-hosted
 # xcode-27 image because macos-26 stops at Xcode 26.
+# https://github.com/fulldecent/swift-app-template/blob/v1.0.0/.github/workflows/build-test.yml
 # https://github.blog/changelog/2026-07-16-xcode-27-runner-image-now-in-public-preview/
 # https://github.com/actions/runner-images/blob/main/images/macos/xcode-27-arm64-Readme.md
 #
-# This repository is an Xcode app, not a Swift package, so `xcrun swift test`
-# does not build it. The destination is the iPhone 17 simulator on iOS 27.0,
-# which the Xcode 27.0 image lists.
-#
-# Debug signing is manual and the device provisioning profile is not on the
-# runner. CODE_SIGNING_ALLOWED=NO lets the simulator test build without it.
-# swift format is the formatter the template's soundness workflow runs.
+# The destination is the iPhone 17 simulator on iOS 27.0, which the Xcode 27.0
+# image lists. Debug signing is manual and the device provisioning profile is
+# not on the runner. CODE_SIGNING_ALLOWED=NO lets the simulator test build
+# without it. swift format is the formatter that workflow runs.
 
 on:
   workflow_call:

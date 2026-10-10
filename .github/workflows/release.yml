@@ -5,11 +5,12 @@
 # when fix:, feat:, or BREAKING CHANGE: commits are waiting. Merging that pull
 # request submits both platforms for App Store review.
 #
-# Adapted from swift6-module-template release 16.5.0:
-# https://github.com/fulldecent/swift6-module-template/blob/v16.5.0/.github/workflows/release.yml
-# That workflow attests a Linux static library from `swift build -c release`.
-# This repository is an Xcode app. The App Store job generates screenshots and
-# uploads the text in fastlane/metadata and fastlane/metadata-macos.
+# Adapted from swift-app-template release 1.0.0:
+# https://github.com/fulldecent/swift-app-template/blob/v1.0.0/.github/workflows/release.yml
+# This app already has the App Store secrets, so the upload jobs run on every
+# push. The template skips those jobs until APP_STORE_CONNECT_KEY_ID is set.
+# The App Store job generates screenshots and uploads the text in
+# fastlane/metadata and fastlane/metadata-macos.
 #
 # Release Please writes VERSION, the MARKETING_VERSION lines marked
 # x-release-please-version, and CHANGELOG.md. The tag is v<version>.
