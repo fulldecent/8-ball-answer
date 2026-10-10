@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
+
 #if os(macOS)
-import AppKit
+  import AppKit
 #endif
 
 private func localeFromLaunchArguments() -> Locale {
@@ -21,69 +22,70 @@ private func localeFromLaunchArguments() -> Locale {
 }
 
 #if os(macOS)
-enum MacScreenshot {
-  static let width: CGFloat = 1440
-  static let height: CGFloat = 900
+  enum MacScreenshot {
+    static let width: CGFloat = 1440
+    static let height: CGFloat = 900
 
-  /// Writes a 1440×900 PNG and exits when launched with `-screenshot-file`.
-  /// The App Store runner cannot see another app's window without Screen Recording permission.
-  static func exportIfRequested(answers: AnswersModel) {
-    let arguments = ProcessInfo.processInfo.arguments
-    guard let index = arguments.firstIndex(of: "-screenshot-file"),
-      arguments.indices.contains(index + 1)
-    else { return }
+    /// Writes a 1440×900 PNG and exits when launched with `-screenshot-file`.
+    /// The App Store runner cannot see another app's window without Screen Recording permission.
+    static func exportIfRequested(answers: AnswersModel) {
+      let arguments = ProcessInfo.processInfo.arguments
+      guard let index = arguments.firstIndex(of: "-screenshot-file"),
+        arguments.indices.contains(index + 1)
+      else { return }
 
-    let fortune = arguments.contains("-screenshot")
-      ? answers.getAnswer(locale: localeFromLaunchArguments())
-      : "Tap for answer"
-    let renderer = ImageRenderer(
-      content: AnswerCanvas(fortune: fortune)
-        .frame(width: width, height: height)
-    )
-    renderer.scale = 1
-
-    guard let image = renderer.nsImage,
-      let tiff = image.tiffRepresentation,
-      let rep = NSBitmapImageRep(data: tiff),
-      rep.pixelsWide == Int(width),
-      rep.pixelsHigh == Int(height),
-      let png = rep.representation(using: .png, properties: [:])
-    else {
-      fputs("could not render a \(Int(width))×\(Int(height)) Mac screenshot\n", stderr)
-      exit(1)
-    }
-
-    let url = URL(fileURLWithPath: arguments[index + 1])
-    do {
-      try FileManager.default.createDirectory(
-        at: url.deletingLastPathComponent(),
-        withIntermediateDirectories: true
+      let fortune =
+        arguments.contains("-screenshot")
+        ? answers.getAnswer(locale: localeFromLaunchArguments())
+        : "Tap for answer"
+      let renderer = ImageRenderer(
+        content: AnswerCanvas(fortune: fortune)
+          .frame(width: width, height: height)
       )
-      try png.write(to: url)
-    } catch {
-      fputs("could not write Mac screenshot: \(error)\n", stderr)
-      exit(1)
+      renderer.scale = 1
+
+      guard let image = renderer.nsImage,
+        let tiff = image.tiffRepresentation,
+        let rep = NSBitmapImageRep(data: tiff),
+        rep.pixelsWide == Int(width),
+        rep.pixelsHigh == Int(height),
+        let png = rep.representation(using: .png, properties: [:])
+      else {
+        fputs("could not render a \(Int(width))×\(Int(height)) Mac screenshot\n", stderr)
+        exit(1)
+      }
+
+      let url = URL(fileURLWithPath: arguments[index + 1])
+      do {
+        try FileManager.default.createDirectory(
+          at: url.deletingLastPathComponent(),
+          withIntermediateDirectories: true
+        )
+        try png.write(to: url)
+      } catch {
+        fputs("could not write Mac screenshot: \(error)\n", stderr)
+        exit(1)
+      }
+      exit(0)
     }
-    exit(0)
   }
-}
 
-private struct AnswerCanvas: View {
-  let fortune: String
+  private struct AnswerCanvas: View {
+    let fortune: String
 
-  var body: some View {
-    Text(fortune)
-      .font(.system(size: 500))
-      .fontWeight(.bold)
-      .foregroundColor(.white)
-      .multilineTextAlignment(.center)
-      .minimumScaleFactor(0.01)
-      .lineLimit(nil)
-      .padding()
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(Color.black)
+    var body: some View {
+      Text(fortune)
+        .font(.system(size: 500))
+        .fontWeight(.bold)
+        .foregroundColor(.white)
+        .multilineTextAlignment(.center)
+        .minimumScaleFactor(0.01)
+        .lineLimit(nil)
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black)
+    }
   }
-}
 #endif
 
 struct ContentView: View {

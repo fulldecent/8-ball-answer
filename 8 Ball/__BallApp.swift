@@ -11,7 +11,7 @@ import SwiftUI
 struct __BallApp: App {
   init() {
     #if os(macOS)
-    MacScreenshot.exportIfRequested(answers: AnswersModel())
+      MacScreenshot.exportIfRequested(answers: AnswersModel())
     #endif
   }
 
