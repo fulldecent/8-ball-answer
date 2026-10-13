@@ -1,0 +1,8 @@
+*.md
+*.pbxproj
+*.xcscheme
+*.xcworkspacedata
+Gemfile.lock
+CHANGELOG.md
+answers-by-locale.json
+**/*.xcassets/**

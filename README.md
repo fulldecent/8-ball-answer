@@ -1,6 +1,6 @@
 # 8 Ball Answer 🎱
 
-[![CI](https://github.com/fulldecent/8-ball-answer/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fulldecent/8-ball-answer/actions/workflows/ci.yml)
+[![CI](https://github.com/fulldecent/8-ball-answer/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fulldecent/8-ball-answer/actions/workflows/ci.yml) [![Lint](https://github.com/fulldecent/8-ball-answer/actions/workflows/lint.yml/badge.svg)](https://github.com/fulldecent/8-ball-answer/actions/workflows/lint.yml)
 
 Get it now on the App Store: [iOS](https://apps.apple.com/us/app/8-ball-answer/id995732766)
 
@@ -13,7 +13,7 @@ A delightfully simple iOS + watchOS app for answering questions, 8 Ball Answer i
 - Minimalistic and readable design allows users to easily see answers with an uncluttered, simple display
 - Available on iOS and watchOS so users can ask questions on the go
 
-# Installation ⚙️
+## Installation ⚙️
 
 To install and enjoy 8 Ball Answer, follow these simple steps:
 
@@ -25,7 +25,7 @@ To install and enjoy 8 Ball Answer, follow these simple steps:
 
 4. **Receive an answer**: After tapping, an answer to your question will appear on the screen.
 
-# Gameplay visuals 📸
+## Gameplay visuals 📸
 
 **Waiting screen before a question is asked:**
 ![Simulator Screen Shot - iPad Pro (12 9-inch) (3rd generation) - 2020-01-02 at 15 50 13](https://user-images.githubusercontent.com/382183/71692537-2d721c80-2d78-11ea-8da9-17b4c713647b.png)
@@ -34,7 +34,7 @@ To install and enjoy 8 Ball Answer, follow these simple steps:
 
 ## Development
 
-Format the Swift files the CI workflow checks. The formatter is `swift format`, the same one [swift-app-template](https://github.com/fulldecent/swift-app-template/blob/v1.0.0/.github/workflows/build-test.yml) runs.
+Format the Swift files the CI workflow checks. The formatter is `swift format`, the same one [swift-app-template](https://github.com/fulldecent/swift-app-template/blob/v1.1.0/.github/workflows/build-test.yml) runs. Prettier and markdownlint are the checks in [lint.yml](.github/workflows/lint.yml), from that template's [lint workflow](https://github.com/fulldecent/swift-app-template/blob/v1.1.0/.github/workflows/lint.yml).
 
 ```sh
 swift format format --in-place --recursive "8 Ball" "8 BallTests"
@@ -52,6 +52,13 @@ xcodebuild test \
 
 `CODE_SIGNING_ALLOWED=NO` is for a machine that does not have the device provisioning profile. A local run signed with your own team can omit it.
 
+With an actively maintained version of Node.js installed:
+
+```sh
+npx prettier@latest --check . --write
+npx markdownlint-cli@latest "**/*.md" --fix
+```
+
 ## Setup
 
 This is the maintainer setup for [.github/workflows/release.yml](.github/workflows/release.yml).
@@ -61,15 +68,15 @@ This is the maintainer setup for [.github/workflows/release.yml](.github/workflo
 3. Sign the Apple Developer Program agreement. App Store Connect API calls fail until it is in effect.
 4. Repository secrets:
 
-   | Secret | Value |
-   | --- | --- |
-   | `APP_STORE_CONNECT_KEY_ID` | App Store Connect API key id |
-   | `APP_STORE_CONNECT_ISSUER_ID` | Issuer id |
-   | `APP_STORE_CONNECT_KEY` | Contents of the AuthKey `.p8` file |
-   | `APP_STORE_DISTRIBUTION_P12` | Base64 of an Apple Distribution PKCS12 |
-   | `APP_STORE_DISTRIBUTION_P12_PASSWORD` | Password for that PKCS12 |
-   | `APP_STORE_MAC_INSTALLER_P12` | Base64 of a Mac Installer Distribution PKCS12 |
-   | `APP_STORE_MAC_INSTALLER_P12_PASSWORD` | Password for that PKCS12 |
+   | Secret                                 | Value                                         |
+   | -------------------------------------- | --------------------------------------------- |
+   | `APP_STORE_CONNECT_KEY_ID`             | App Store Connect API key id                  |
+   | `APP_STORE_CONNECT_ISSUER_ID`          | Issuer id                                     |
+   | `APP_STORE_CONNECT_KEY`                | Contents of the AuthKey `.p8` file            |
+   | `APP_STORE_DISTRIBUTION_P12`           | Base64 of an Apple Distribution PKCS12        |
+   | `APP_STORE_DISTRIBUTION_P12_PASSWORD`  | Password for that PKCS12                      |
+   | `APP_STORE_MAC_INSTALLER_P12`          | Base64 of a Mac Installer Distribution PKCS12 |
+   | `APP_STORE_MAC_INSTALLER_P12_PASSWORD` | Password for that PKCS12                      |
 
    The workflow creates the provisioning profiles at build time. Profiles are not stored. The API key needs App Manager access. Replace a secret with `gh secret set <NAME> --repo fulldecent/8-ball-answer`. For the certificate, `base64 < distribution.p12` is the value of `APP_STORE_DISTRIBUTION_P12`. `fastlane cert` can create a new Apple Distribution certificate when the private key on this machine cannot be exported.
 
@@ -96,7 +103,8 @@ bundle exec fastlane submit_app_store build_number:123
 
 ## References
 
-1. This project is built based on [best practices documented in swift-app-template](https://github.com/fulldecent/swift-app-template), release 1.0.0. Continuous integration follows that release's [build-and-test workflow](https://github.com/fulldecent/swift-app-template/blob/v1.0.0/.github/workflows/build-test.yml): the GitHub-hosted `xcode-27` runner, `actions/checkout@v7`, and `xcodebuild test` on the iPhone 17 simulator for iOS 27.0.
-2. Releases follow that template's [release workflow](https://github.com/fulldecent/swift-app-template/blob/v1.0.0/.github/workflows/release.yml). This repository uploads the iOS and macOS apps to TestFlight on every push to `main`, and submits both for App Store review when the release pull request merges. The version file is [VERSION](VERSION). The template skips the upload until `APP_STORE_CONNECT_KEY_ID` is set. This repository has that secret, so the upload runs.
-3. Swift ignore rules follow the template's [.gitignore](https://github.com/fulldecent/swift-app-template/blob/v1.0.0/.gitignore), which inlines [Swift.gitignore](https://github.com/github/gitignore/blob/main/Swift.gitignore). `fastlane/api_key.json`, `*.p8`, and `vendor/bundle/` stay ignored because those files are secrets or a local Ruby install.
-4. The license is MIT. The template says to consider which license applies. This repository had no license file. Copyright starts at the first commit, 2015.
+1. This project is built based on [best practices documented in swift-app-template](https://github.com/fulldecent/swift-app-template), release 1.1.0. Continuous integration follows that release's [build-and-test workflow](https://github.com/fulldecent/swift-app-template/blob/v1.1.0/.github/workflows/build-test.yml): the GitHub-hosted `xcode-27` runner, `actions/checkout@v7`, `swift format`, and `xcodebuild test` on the iPhone 17 simulator for iOS 27.0. The job stays in [ci.yml](.github/workflows/ci.yml) because [release.yml](.github/workflows/release.yml) calls that file. The template's file is `build-test.yml`.
+2. [lint.yml](.github/workflows/lint.yml), [.editorconfig](.editorconfig), [.markdownlint.json](.markdownlint.json), [.markdownlintignore](.markdownlintignore), and [.prettierignore](.prettierignore) are that release's lint files. Prettier and markdownlint run in `lint.yml`. `swift format` stays in `ci.yml`. This repository also leaves `answers-by-locale.json` and the asset catalogs out of Prettier. Prettier rewrites both, and Xcode owns the catalogs.
+3. Releases follow that template's [release workflow](https://github.com/fulldecent/swift-app-template/blob/v1.1.0/.github/workflows/release.yml). This repository uploads the iOS and macOS apps to TestFlight on every push to `main`, and submits both for App Store review when the release pull request merges. The version file is [VERSION](VERSION). The template skips the upload until `APP_STORE_CONNECT_KEY_ID` is set. This repository has that secret, so the upload runs. The template's upload rules were confirmed in this repository.
+4. Swift ignore rules follow the template's [.gitignore](https://github.com/fulldecent/swift-app-template/blob/v1.1.0/.gitignore), which inlines [Swift.gitignore](https://github.com/github/gitignore/blob/main/Swift.gitignore). `fastlane/api_key.json`, `*.p8`, and `vendor/bundle/` stay ignored because those files are secrets or a local Ruby install.
+5. The license is MIT. The template says to consider which license applies. This repository had no license file. Copyright starts at the first commit, 2015.
